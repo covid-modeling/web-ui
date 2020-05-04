@@ -1,0 +1,30 @@
+.AboutPage {
+  @apply mx-auto;
+  @apply px-10;
+  margin-top: 49px;
+  max-width: 615px;
+}
+
+.AboutPage h1 {
+  @apply mt-8 mb-4;
+  @apply font-bold text-3.25xl;
+}
+
+.AboutPage .MainDesc {
+  @apply mt-8 mb-4;
+  @apply text-lg;
+}
+
+.AboutPage h2 {
+  @apply mt-8 mb-4;
+  @apply font-bold text-lg;
+}
+
+.AboutPage h3 {
+  @apply mt-8 mb-4;
+  @apply font-bold;
+}
+
+.AboutPage p {
+  @apply mt-4;
+}

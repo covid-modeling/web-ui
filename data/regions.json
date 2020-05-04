@@ -1,0 +1,214 @@
+{
+  "GB": {
+    "name": "Great Britain",
+    "id": "GB",
+    "regions": {
+      "_self": {
+        "name": "All Regions",
+        "id": "_self"
+      }
+    }
+  },
+  "US": {
+    "name": "United States",
+    "id": "US",
+    "regions": {
+      "US-AL": {
+        "id": "US-AL",
+        "name": "Alabama"
+      },
+      "US-AZ": {
+        "id": "US-AZ",
+        "name": "Arizona"
+      },
+      "US-AR": {
+        "id": "US-AR",
+        "name": "Arkansas"
+      },
+      "US-CA": {
+        "id": "US-CA",
+        "name": "California"
+      },
+      "US-CO": {
+        "id": "US-CO",
+        "name": "Colorado"
+      },
+      "US-CT": {
+        "id": "US-CT",
+        "name": "Connecticut"
+      },
+      "US-DE": {
+        "id": "US-DE",
+        "name": "Delaware"
+      },
+      "US-FL": {
+        "id": "US-FL",
+        "name": "Florida"
+      },
+      "US-GA": {
+        "id": "US-GA",
+        "name": "Georgia"
+      },
+      "US-ID": {
+        "id": "US-ID",
+        "name": "Idaho"
+      },
+      "US-IL": {
+        "id": "US-IL",
+        "name": "Illinois"
+      },
+      "US-IN": {
+        "id": "US-IN",
+        "name": "Indiana"
+      },
+      "US-IA": {
+        "id": "US-IA",
+        "name": "Iowa"
+      },
+      "US-KS": {
+        "id": "US-KS",
+        "name": "Kansas"
+      },
+      "US-KY": {
+        "id": "US-KY",
+        "name": "Kentucky"
+      },
+      "US-LA": {
+        "id": "US-LA",
+        "name": "Louisiana"
+      },
+      "US-ME": {
+        "id": "US-ME",
+        "name": "Maine"
+      },
+      "US-MD": {
+        "id": "US-MD",
+        "name": "Maryland"
+      },
+      "US-MA": {
+        "id": "US-MA",
+        "name": "Massachusetts"
+      },
+      "US-MI": {
+        "id": "US-MI",
+        "name": "Michigan"
+      },
+      "US-MN": {
+        "id": "US-MN",
+        "name": "Minnesota"
+      },
+      "US-MS": {
+        "id": "US-MS",
+        "name": "Mississippi"
+      },
+      "US-MO": {
+        "id": "US-MO",
+        "name": "Missouri"
+      },
+      "US-MT": {
+        "id": "US-MT",
+        "name": "Montana"
+      },
+      "US-NE": {
+        "id": "US-NE",
+        "name": "Nebraska"
+      },
+      "US-NV": {
+        "id": "US-NV",
+        "name": "Nevada"
+      },
+      "US-NH": {
+        "id": "US-NH",
+        "name": "New Hampshire"
+      },
+      "US-NJ": {
+        "id": "US-NJ",
+        "name": "New Jersey"
+      },
+      "US-NM": {
+        "id": "US-NM",
+        "name": "New Mexico"
+      },
+      "US-NY": {
+        "id": "US-NY",
+        "name": "New York"
+      },
+      "US-NC": {
+        "id": "US-NC",
+        "name": "North Carolina"
+      },
+      "US-ND": {
+        "id": "US-ND",
+        "name": "North Dakota"
+      },
+      "US-OH": {
+        "id": "US-OH",
+        "name": "Ohio"
+      },
+      "US-OK": {
+        "id": "US-OK",
+        "name": "Oklahoma"
+      },
+      "US-OR": {
+        "id": "US-OR",
+        "name": "Oregon"
+      },
+      "US-PA": {
+        "id": "US-PA",
+        "name": "Pennsylvania"
+      },
+      "US-RI": {
+        "id": "US-RI",
+        "name": "Rhode Island"
+      },
+      "US-SC": {
+        "id": "US-SC",
+        "name": "South Carolina"
+      },
+      "US-SD": {
+        "id": "US-SD",
+        "name": "South Dakota"
+      },
+      "US-TN": {
+        "id": "US-TN",
+        "name": "Tennessee"
+      },
+      "US-TX": {
+        "id": "US-TX",
+        "name": "Texas"
+      },
+      "US-UT": {
+        "id": "US-UT",
+        "name": "Utah"
+      },
+      "US-VT": {
+        "id": "US-VT",
+        "name": "Vermont"
+      },
+      "US-VA": {
+        "id": "US-VA",
+        "name": "Virginia"
+      },
+      "US-WA": {
+        "id": "US-WA",
+        "name": "Washington"
+      },
+      "US-WV": {
+        "id": "US-WV",
+        "name": "West Virginia"
+      },
+      "US-WI": {
+        "id": "US-WI",
+        "name": "Wisconsin"
+      },
+      "US-WY": {
+        "id": "US-WY",
+        "name": "Wyoming"
+      },
+      "US-DC": {
+        "id": "US-DC",
+        "name": "District of Columbia"
+      }
+    }
+  }
+}

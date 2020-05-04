@@ -1,0 +1,19 @@
+.RangeInput {
+  @apply flex;
+}
+
+.RangeInput input[type='number'] {
+  @apply mr-4;
+  @apply pl-5 py-3;
+  @apply border;
+  @apply rounded;
+  border-color: #cccccc;
+}
+
+.RangeInput input[type='number']:focus {
+  @apply outline-none;
+}
+
+.RangeInput input[type='range'] {
+  @apply flex-grow;
+}

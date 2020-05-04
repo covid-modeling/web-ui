@@ -1,0 +1,50 @@
+.largecontainer {
+  @apply flex flex-col;
+  @apply mr-6;
+  @apply p-4;
+  @apply w-full;
+  @apply rounded;
+  @apply border;
+  @apply shadow-sm;
+  min-height: 310px;
+  background-image: linear-gradient(180deg, #ffffff 0%, #fbfbfc 100%);
+}
+
+.minimalcontainer {
+  @apply flex;
+  @apply mr-6;
+  @apply w-full;
+}
+
+.container:nth-child(2) {
+  @apply mr-0;
+}
+
+.container h1,
+.container h2 {
+  @apply leading-relaxed;
+}
+
+.container p {
+  @apply flex-1;
+  @apply mt-4;
+  @apply text-sm;
+  color: #2f3037;
+}
+
+.largecontainer .links {
+  @apply mt-12;
+}
+
+.container .links a {
+  @apply mr-4;
+  @apply inline-block;
+}
+.container .links a svg {
+  @apply mr-3;
+  @apply inline;
+  @apply relative;
+  @apply align-middle;
+  bottom: 1px;
+  color: #9194a1;
+}

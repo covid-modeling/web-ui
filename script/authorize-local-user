@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -e
+
+if [ -z "$1" ]; then
+    echo "Adds a github user account to the list of local authorized users for this app."
+    echo ""
+    echo "usage:"
+    echo ""
+    echo "     authorize-local-user [github-id]"
+    exit 1
+fi
+
+docker-compose exec db sh -c "mysql -u\$MYSQL_USER -p\$MYSQL_PASSWORD \$MYSQL_DATABASE -e 'INSERT INTO authorized_users (github_user_login) VALUES (\"$1\");'"

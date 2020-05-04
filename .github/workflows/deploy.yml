@@ -1,0 +1,24 @@
+on:
+  repository_dispatch:
+    types: deploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{runner.os}}-deploy-${{hashFiles('**/package-lock.json')}}
+      - run: npm ci
+      - run: |
+          mkdir .now
+          echo '{"projectId":"${{secrets.ZEIT_PROJECT_ID}}","orgId":"${{secrets.ZEIT_ORG_ID}}"}' > .now/project.json
+      - run: npx now --token ${{secrets.ZEIT_TOKEN}} -b GITHUB_SHA=${{github.sha}} --prod -A now.prod.json
+      - run: |
+          npx sentry-cli \
+            --auth-token "${{secrets.SENTRY_AUTH_TOKEN}}" \
+            releases --org github-disease-modelling \
+            deploys "${{github.sha}}" \
+            new -e production

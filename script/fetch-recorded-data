@@ -1,0 +1,282 @@
+#!/usr/bin/env node
+
+const fs = require('fs')
+const path = require('path')
+const https = require('https')
+const URL = require('url')
+const {DateTime} = require('luxon')
+const mysql = require('serverless-mysql')
+const d3 = require('d3')
+
+const cacheDir = process.argv[2]
+if (cacheDir === '--help') {
+  console.log(`
+USAGE
+
+  fetch-recorded-data [cache-directory]
+
+INFO
+
+  Download public datasets for covid-19 cases and policy interventions, format these datasets,
+  and write them to MySQL.
+
+  Optionally, pass a path to a directory where downloads should be cached and the results
+  should be written as JSON files.
+
+  To store the results in MySQL, set these environment variables:
+  DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE
+`)
+  process.exit(0)
+}
+
+const hopkinsBaseURL =
+  'https://raw.githubusercontent.com/' +
+  'CSSEGISandData/COVID-19/' +
+  'master/csse_covid_19_data/csse_covid_19_time_series'
+const hopkinsConfirmedURL = `${hopkinsBaseURL}/time_series_covid19_confirmed_global.csv`
+const hopkinsDeathURL = `${hopkinsBaseURL}/time_series_covid19_deaths_global.csv`
+const hopkinsRecoveredURL = `${hopkinsBaseURL}/time_series_covid19_recovered_global.csv`
+const covidTrackingURL = 'https://covidtracking.com/api/v1/states/daily.json'
+const usInterventionsURL = `https://raw.githubusercontent.com/COVID19StatePolicy/SocialDistancing/master/data/USstatesCov19distancingpolicy.csv`
+
+const db = mysql({
+  maxRetries: 5,
+  config: {
+    host: process.env.DB_HOST,
+    user: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE,
+    ssl: process.env.NODE_ENV === 'production' && {
+      ca: fs.readFileSync(
+        require.resolve('../lib/BaltimoreCyberTrustRoot.crt.pem'),
+        'utf8'
+      )
+    },
+    dateStrings: true
+  }
+})
+
+async function main() {
+  // Fetch the raw data
+  const usaCasesJSON = await fetchCached(covidTrackingURL, cacheDir)
+  const globalConfirmedCSV = await fetchCached(hopkinsConfirmedURL, cacheDir)
+  const globalRecoveredCSV = await fetchCached(hopkinsRecoveredURL, cacheDir)
+  const globalDeathsCSV = await fetchCached(hopkinsDeathURL, cacheDir)
+  const usInterventionsCSV = await fetchCached(usInterventionsURL, cacheDir)
+
+  // Parse the US case data
+  const metricsByState = {}
+  const usCaseRecords = JSON.parse(usaCasesJSON)
+    .sort((a, b) => a.date - b.date)
+    .map(row => {
+      const regionID = 'US'
+      const subregionID = `US-${row.state}`
+
+      // Date is an integer with digits YYYYMMDD
+      const dateString = row.date.toString()
+      const date = new Date(
+        dateString.slice(0, 4),
+        parseInt(dateString.slice(4, 6), 10) - 1,
+        dateString.slice(6)
+      )
+      const dateSQL = DateTime.fromJSDate(date).toISODate()
+
+      // Fill in null values with the last non-null value or zero
+      const current =
+        metricsByState[row.state] || (metricsByState[row.state] = {})
+      current.confirmed = row.positive || current.confirmed || 0
+      current.recovered = row.recovered || current.recovered || 0
+      current.deaths = row.death || current.deaths || 0
+
+      return [
+        regionID,
+        subregionID,
+        dateSQL,
+        current.confirmed,
+        current.recovered,
+        current.deaths
+      ]
+    })
+
+  // Parse the UK case data
+  const ukCaseRecordsByDate = {}
+  for (const [metric, csv] of [
+    ['confirmed', globalConfirmedCSV],
+    ['recovered', globalRecoveredCSV],
+    ['deaths', globalDeathsCSV]
+  ]) {
+    // Parse the CSV and find the row that corresponds to the entire UK
+    const data = parseCSV(csv)
+    const ukRow = data.findIndex(
+      row => row[0] === '' && row[1] === 'United Kingdom'
+    )
+    if (ukRow === -1) {
+      throw new Error(`No United Kingdom row in ${metric} dataset`)
+    }
+
+    // Combine the data from the per-metric CSVs by building up an object
+    // whose keys are dates, and whose values contain all the metrics.
+    const METADATA_COLS = 4
+    for (let i = METADATA_COLS; i < data[0].length; i++) {
+      const dateString = data[0][i]
+      let record = ukCaseRecordsByDate[dateString]
+      if (!record) {
+        // Date is a string with format MM/DD/YY
+        const [month, day, year] = dateString.split('/')
+        const date = new Date('20' + year, parseInt(month, 10) - 1, day)
+        record = ukCaseRecordsByDate[dateString] = {
+          date: DateTime.fromJSDate(date).toISODate()
+        }
+      }
+      record[metric] = parseFloat(data[ukRow][i], 10)
+    }
+  }
+  const ukCaseRecords = Object.values(ukCaseRecordsByDate).map(r => {
+    return ['GB', null, r.date, r.confirmed, r.recovered, r.deaths]
+  })
+
+  const caseRecords = usCaseRecords.concat(ukCaseRecords)
+
+  // Parse the US intervention data
+  const usInterventionRecords = []
+  for (const row of d3.csvParse(usInterventionsCSV)) {
+    if (row.StatePolicy && row.StatePostal && row.DateEnacted) {
+      const regionId = 'US'
+      const subregionId = `US-${row.StatePostal}`
+      const policy = row.StatePolicy
+      const notes = row.PolicyCodingNotes
+      const source = row.PolicySource || null
+      const issueDate = row.DateIssued || null
+      const startDate = row.DateEnacted
+      const easeDate = row.DateEased || null
+      const expirationDate = row.DateExpiry || null
+      const endDate = row.DateEnded || null
+      usInterventionRecords.push([
+        regionId,
+        subregionId,
+        policy,
+        notes,
+        source,
+        issueDate,
+        startDate,
+        easeDate,
+        expirationDate,
+        endDate
+      ])
+    }
+  }
+
+  if (cacheDir) {
+    fs.writeFileSync(
+      path.join(cacheDir, 'case-data.json'),
+      JSON.stringify(caseRecords, null, 2),
+      'utf8'
+    )
+
+    fs.writeFileSync(
+      path.join(cacheDir, 'intervention-data.json'),
+      JSON.stringify(usInterventionRecords, null, 2),
+      'utf8'
+    )
+  }
+
+  try {
+    await db.query('START TRANSACTION')
+
+    // Populate the case_data table
+    console.log(`Saving ${caseRecords.length} records to case_data table...`)
+    await db.query('CREATE TABLE case_data_import LIKE case_data')
+    await db.query(
+      `
+        INSERT INTO case_data_import
+        (region_id, subregion_id, date, confirmed, recovered, deaths)
+        VALUES
+        ?
+      `,
+      [caseRecords]
+    )
+    await db.query(
+      'RENAME TABLE case_data TO case_data_old, case_data_import TO case_data'
+    )
+
+    // Populate the intervention_data table
+    await db.query(
+      'CREATE TABLE intervention_data_import LIKE intervention_data'
+    )
+    await db.query(
+      `
+        INSERT INTO intervention_data_import
+        (
+          region_id, subregion_id, policy, notes, source,
+          issue_date, start_date, ease_date, expiration_date, end_date
+        )
+        VALUES
+        ?
+      `,
+      [usInterventionRecords]
+    )
+    await db.query(
+      'RENAME TABLE intervention_data TO intervention_data_old, intervention_data_import TO intervention_data'
+    )
+
+    await db.query('COMMIT')
+  } finally {
+    await db.query('DROP TABLE IF EXISTS case_data_old')
+    await db.query('DROP TABLE IF EXISTS case_data_import')
+    await db.query('DROP TABLE IF EXISTS intervention_data_old')
+    await db.query('DROP TABLE IF EXISTS intervention_data_import')
+  }
+}
+
+async function fetchCached(url, cacheDir) {
+  const cacheFilename = path.basename(url)
+  const cachePath = cacheDir && path.join(cacheDir, cacheFilename)
+
+  if (cachePath && fs.existsSync(cachePath)) {
+    console.log(`Using existing download ${cachePath}...`)
+    return fs.readFileSync(cachePath, 'utf8')
+  } else {
+    console.log(`Downloading from ${url}...`)
+    let result = ''
+    await new Promise((resolve, reject) => {
+      fetch(url)
+      function fetch(url) {
+        https.get(url, res => {
+          // Follow path redirects
+          if (res.statusCode === 301 || res.statusCode === 302) {
+            const oldURL = URL.parse(url)
+            const locationURL = URL.parse(res.headers.location)
+            oldURL.path = locationURL.path
+            oldURL.pathname = locationURL.pathname
+            oldURL.href = null
+            const redirectURL = URL.format(oldURL)
+            console.log(`Redirected\n  from ${url}\n  to ${redirectURL}...`)
+            fetch(redirectURL)
+          } else {
+            res.on('data', chunk => (result += chunk))
+            res.on('end', resolve)
+            res.on('error', reject)
+          }
+        })
+      }
+    })
+    if (cachePath) {
+      console.log(`Saving download to ${cachePath}...`)
+      fs.writeFileSync(cachePath, result, 'utf8')
+    }
+    return result
+  }
+}
+
+function parseCSV(data) {
+  return data.split('\n').map(line => line.split(','))
+}
+
+main()
+  .then(() => {
+    process.exit(0)
+  })
+  .catch(error => {
+    console.error(error)
+    process.exit(1)
+  })

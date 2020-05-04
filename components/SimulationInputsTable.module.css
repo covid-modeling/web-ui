@@ -1,0 +1,37 @@
+.h1 {
+  @apply mt-8 mb-4;
+  @apply font-bold text-3.25xl;
+}
+
+.h2 {
+  @apply mt-4;
+  @apply font-semibold text-lg;
+}
+
+.table td.mild {
+  @apply bg-severity-mild;
+  @apply text-severitytext-mild;
+}
+
+.table td.moderate {
+  @apply bg-severity-moderate;
+  @apply text-severitytext-moderate;
+}
+
+.table td.aggressive {
+  @apply bg-severity-aggressive;
+  @apply text-severitytext-aggressive;
+}
+
+.table td:not(:first-child):not(.socialDistancing) {
+  @apply text-center;
+}
+
+.Inputs {
+  @apply flex;
+}
+
+.Inputs .Name {
+  @apply font-semibold;
+  @apply pr-3;
+}

@@ -1,0 +1,29 @@
+.FormSection {
+  @apply mb-4;
+  @apply p-4;
+  @apply rounded;
+  @apply border;
+  @apply bg-white;
+  @apply shadow-sm;
+  @apply text-sm;
+  border-color: rgba(65, 67, 78, 0.25);
+}
+
+.FormSectionHeader {
+  @apply pb-4;
+}
+
+.FormSectionHeader h2 {
+  @apply font-semibold;
+  @apply text-base;
+}
+
+.FormSectionHeader p {
+  @apply mt-2;
+  @apply text-light-gray;
+}
+
+.FormSectionError {
+  background-color: #ffeef0;
+  border-color: #f97583;
+}

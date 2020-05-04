@@ -1,0 +1,77 @@
+.NewSimulationPage {
+  @apply mx-auto;
+  margin-top: 49px;
+  max-width: 595px;
+}
+
+.NewSimulationPage h1 {
+  @apply mt-2 mb-14;
+  @apply font-bold;
+  @apply text-2xl;
+}
+
+.ApplicationConfig {
+  @apply flex items-start;
+  @apply mb-8;
+  @apply text-sm;
+}
+
+.ApplicationConfigContent {
+  @apply flex-1;
+  @apply ml-3;
+}
+
+.ApplicationConfigContent p {
+  @apply text-light-gray;
+}
+
+.ApplicationConfig h3 {
+  @apply font-semibold;
+}
+
+.ApplicationConfigParams {
+  @apply flex;
+}
+
+.NewSubmit {
+  width: 100%;
+}
+
+.NewSubmit>span {
+  width: 100%;
+}
+
+.NewConfigurationTitle {
+  @apply my-2;
+  @apply mx-1;
+}
+
+.NewConfigurationTitle h3 {
+  @apply font-semibold;
+  @apply text-base;
+  @apply mt-3;
+}
+
+.NewConfigurationTitle p {
+  color: #52555F;
+}
+
+.CalibrationControl {
+  @apply border-solid;
+  @apply border;
+  @apply p-3;
+  @apply mb-2;
+  display: inline-block;
+  width: 100%;
+}
+
+.CalibrationControl input,
+.CalibrationControl>div {
+  width: 100%;
+}
+
+.Error.CalibrationControl {
+  @apply border-solid;
+  @apply border;
+  border-color: red;
+}

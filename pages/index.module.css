@@ -1,0 +1,17 @@
+.IndexContent {
+  @apply flex items-center justify-center;
+  @apply flex-1;
+  height: 100%;
+}
+
+.LoginLink {
+  @apply flex items-center justify-center;
+  @apply bg-black;
+  @apply px-4 py-3;
+  @apply rounded;
+  @apply text-sm text-white;
+}
+
+.LoginLink svg {
+  @apply mr-4;
+}

@@ -1,0 +1,52 @@
+.StrategyConfigurationParam {
+  @apply flex-1;
+  @apply mr-4;
+  @apply mt-4;
+}
+
+.ConfigurableInput {
+  @apply flex;
+  @apply items-start;
+  @apply text-sm;
+}
+
+.ConfigurableInput + .ConfigurableInput {
+  @apply pt-3;
+}
+
+.ConfigurableInputSubsection {
+  @apply flex;
+  @apply items-start;
+  @apply text-sm;
+  @apply pt-1;
+  @apply w-full;
+  padding-left: 1.3rem;
+}
+
+.ConfigurableInputSubsection + .ConfigurableInputSubsection {
+  @apply pl-10;
+}
+
+.Content {
+  @apply flex-1;
+  @apply ml-3;
+}
+
+.Heading h3 {
+  @apply font-semibold;
+  @apply text-lg;
+}
+
+/* Nested Configurable elements have a smaller header */
+.ConfigurableInputSubsection .ConfigurableInput .Heading h3 {
+  @apply text-base;
+}
+
+.ConfigurableInputSubsection .ConfigurableInput .Heading p {
+  @apply text-sm;
+}
+
+.ConfigurableInput p {
+  @apply text-base;
+  color: #52555f;
+}

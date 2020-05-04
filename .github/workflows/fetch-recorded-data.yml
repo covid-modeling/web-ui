@@ -1,0 +1,39 @@
+on:
+  schedule:
+    # covidtracking.com updates at 4pm, we run at 5pm for some wiggle room.
+    - cron: '0 21 * * *'
+  repository_dispatch:
+    types: fetch-recorded-data
+
+jobs:
+  fetch-recorded-data:
+    name: Fetch recorded case and intervention data
+    runs-on: ubuntu-latest
+    env:
+      NODE_ENV: production
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{runner.os}}-deploy-${{hashFiles('**/package-lock.json')}}
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 13.x
+      - run: npm ci
+      - run: |
+          echo "Updating recorded data in staging database..."
+          script/fetch-recorded-data
+        env:
+          DB_USERNAME: ${{ secrets.DB_USERNAME_STAGING }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD_STAGING }}
+          DB_HOST: ${{ secrets.DB_HOST_STAGING }}
+          DB_DATABASE: ${{ secrets.DB_DATABASE_STAGING }}
+      - run: |
+          echo "Updating recorded data in production database..."
+          script/fetch-recorded-data
+        env:
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_DATABASE: ${{ secrets.DB_DATABASE }}

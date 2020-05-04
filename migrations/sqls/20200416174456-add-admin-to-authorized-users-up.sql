@@ -1,0 +1,1 @@
+ALTER TABLE authorized_users ADD admin BOOLEAN DEFAULT FALSE;

@@ -1,0 +1,21 @@
+name: Validate Models
+
+on:
+  push: {branches: master}
+  pull_request: {branches: master}
+
+jobs:
+  validate_models:
+    name: Validate Models
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{runner.os}}-deploy-${{hashFiles('**/package-lock.json')}}
+      - run: npm ci
+      - run: |
+          npx ts-json-schema-generator -p lib/models.ts -t ModelMap -o schema.json
+          npx js-yaml models.yml > models.json
+          npx ajv validate -s schema.json -d models.json

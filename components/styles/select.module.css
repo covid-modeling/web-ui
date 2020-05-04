@@ -1,0 +1,36 @@
+.select {
+  @apply pl-4 pr-8 py-3;
+  @apply appearance-none;
+  @apply border border-gray-400;
+  @apply border-gray-300;
+  @apply bg-white;
+  @apply rounded;
+  @apply outline-none;
+  @apply shadow-sm;
+
+  background-image: url('../../svg/Chevron.svg'),
+    linear-gradient(180deg, #ffffff 0%, #fbfbfc 100%);
+  background-repeat: no-repeat, repeat;
+  background-position: right 0.75rem center, top left;
+}
+
+.selectGroup {
+  @apply rounded;
+  @apply border border-gray-400;
+  @apply shadow-sm;
+}
+
+.selectGroup .select {
+  @apply border-none border-b;
+  @apply rounded-none;
+  @apply shadow-none;
+}
+
+.selectGroup .select:first-child {
+  @apply rounded-t;
+}
+
+.selectGroup .select:last-child {
+  @apply rounded-b;
+  @apply border-none;
+}
