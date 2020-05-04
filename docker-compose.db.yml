@@ -1,0 +1,35 @@
+version: '3.7'
+
+## Must be used with docker-compose.yml
+## You should only run these services individually, not with `docker-compose up`
+services:
+  db-create:
+    build:
+      context: .
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+      - docker_next:/app/.next
+      - node_modules:/app/node_modules
+    environment:
+      DB_USERNAME: user
+      DB_PASSWORD: password
+      DB_HOST: db
+    entrypoint: ['npx', 'db-migrate', 'db:create', 'github_covid_modelling_dev']
+
+  db-migrate:
+    build:
+      context: .
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+      - docker_next:/app/.next
+      - node_modules:/app/node_modules
+    environment:
+      DB_USERNAME: user
+      DB_PASSWORD: password
+      DB_HOST: db
+      DB_DATABASE: github_covid_modelling_dev
+    entrypoint: ['npx', 'db-migrate']

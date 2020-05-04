@@ -1,0 +1,16 @@
+.Button {
+  @apply inline-block;
+}
+
+.ButtonContent {
+  @apply flex items-center justify-center;
+  @apply bg-black;
+  @apply rounded;
+  @apply text-sm text-white;
+
+  padding: 0.9rem 1rem;
+}
+
+.Button svg {
+  @apply mr-4;
+}

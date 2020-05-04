@@ -1,0 +1,16 @@
+.NavBar {
+  @apply flex items-center;
+  @apply h-14 w-full;
+  @apply px-8;
+  @apply bg-black;
+  @apply text-sm text-white;
+}
+
+.NavBar h1 {
+  @apply uppercase;
+  @apply mr-5;
+}
+
+.NavBarContent {
+  @apply flex-1;
+}

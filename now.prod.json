@@ -1,0 +1,38 @@
+{
+  "regions": ["iad1"],
+  "alias": "covid-modeling.org",
+  "build": {
+    "env": {
+      "BLOB_STORAGE_ACCOUNT": "@prod-blob-storage-account",
+      "BLOB_STORAGE_CONTAINER": "@prod-blob-storage-container",
+      "BLOB_STORAGE_KEY": "@prod-blob-storage-key",
+      "GITHUB_CLIENT_ID": "@prod-github-client-id",
+      "SENTRY_DSN": "@prod-sentry-dsn",
+      "SENTRY_AUTH_TOKEN": "@prod-sentry-token",
+      "SENTRY_ORG": "github-disease-modelling",
+      "SENTRY_PROJECT": "web-api-ui",
+      "APP_ENVIRONMENT": "production",
+      "SESSION_SECRET": "@prod-session-secret"
+    }
+  },
+  "env": {
+    "GITHUB_CLIENT_ID": "@prod-github-client-id",
+    "GITHUB_CLIENT_SECRET": "@prod-github-client-secret",
+    "GITHUB_API_TOKEN": "@prod-github-api-token",
+    "CONTROL_REPO_NWO": "covid-modeling/prod-covid19-control-plane",
+    "CONTROL_REPO_EVENT_TYPE": "run-simulation",
+    "DB_USERNAME": "@prod-mysql-username",
+    "DB_PASSWORD": "@prod-mysql-password",
+    "DB_HOST": "@prod-mysql-host",
+    "DB_DATABASE": "@prod-mysql-database",
+    "RUNNER_SHARED_SECRET": "@prod-runner-shared-secret",
+    "RUNNER_CALLBACK_URL": "https://covid-modeling.org",
+    "BLOB_STORAGE_ACCOUNT": "@prod-blob-storage-account",
+    "BLOB_STORAGE_CONTAINER": "@prod-blob-storage-container",
+    "BLOB_STORAGE_KEY": "@prod-blob-storage-key",
+    "OAUTH_SECRET": "@prod-oauth-secret",
+    "SESSION_SECRET": "@prod-session-secret",
+    "SENTRY_DSN": "@prod-sentry-dsn",
+    "APP_ENVIRONMENT": "production"
+  }
+}

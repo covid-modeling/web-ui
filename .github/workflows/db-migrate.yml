@@ -1,0 +1,25 @@
+on:
+  repository_dispatch:
+    types: db-migrate
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          echo "Client Payload:"
+          echo '${{toJson(github.event.client_payload)}}'
+      - run: |
+          docker-compose -f docker-compose.yml -f docker-compose.db.yml run \
+            -e DB_USERNAME="${{secrets.DB_USERNAME}}" \
+            -e DB_PASSWORD="${{secrets.DB_PASSWORD}}" \
+            -e DB_HOST="${{secrets.DB_HOST}}" \
+            -e DB_DATABASE="${{secrets.DB_DATABASE}}" \
+            -e DB_USERNAME_STAGING="${{secrets.DB_USERNAME_STAGING}}" \
+            -e DB_PASSWORD_STAGING="${{secrets.DB_PASSWORD_STAGING}}" \
+            -e DB_HOST_STAGING="${{secrets.DB_HOST_STAGING}}" \
+            -e DB_DATABASE_STAGING="${{secrets.DB_DATABASE_STAGING}}" \
+            db-migrate ${{github.event.client_payload.direction}} \
+            --env ${{github.event.client_payload.env}} \
+            --count ${{github.event.client_payload.count}}

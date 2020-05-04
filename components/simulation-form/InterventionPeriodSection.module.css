@@ -1,0 +1,106 @@
+.InterventionPeriodSection {
+  position: relative;
+}
+
+.AutoGenMessage {
+  @apply p-4;
+  @apply flex;
+  background-color: #f1f8ff;
+}
+
+.AutoGenMessage div {
+  @apply text-xs;
+  @apply m-0;
+}
+
+.AutoGenMessage svg {
+  @apply mr-2;
+  width: 2rem;
+}
+
+.StrategyList,
+.StrategyList > li,
+.Intensity {
+  border-color: #ccc;
+}
+
+.StrategyList {
+  @apply rounded;
+  @apply border;
+  @apply shadow-sm;
+  background-image: linear-gradient(180deg, #ffffff 0%, #fbfbfc 100%);
+}
+
+.StrategyList > li {
+  @apply border-b;
+}
+
+.StrategyList > li:last-child {
+  @apply border-none;
+}
+
+.Strategy,
+.Intensity {
+  @apply w-full flex;
+  @apply p-4 pb-2;
+}
+
+.Intensity {
+  @apply pl-8;
+  @apply border-t;
+  @apply text-gray-800;
+}
+
+.Strategy input,
+.Intensity input {
+  @apply mr-3;
+}
+
+.Strategy label,
+.Intensity label {
+  position: relative;
+  bottom: 0.25rem;
+}
+
+.Intensities {
+  background-color: #f7f7f9;
+}
+
+.RemoveButton {
+  @apply bg-white;
+  color: #cb2431;
+  position: absolute;
+  top: 1.3rem;
+  right: 1.3rem;
+}
+
+.PercInput {
+  @apply flex;
+}
+
+.PercInput input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.PercInput .PercSign {
+  @apply border-t border-r border-b;
+  @apply rounded-r;
+  @apply px-4 py-3;
+  background-image: linear-gradient(180deg, #ffffff 0%, #fbfbfc 100%);
+}
+
+.PercInput .PercSign.warn {
+  @apply border-orange;
+  @apply bg-orange;
+  opacity: 50;
+  color: #a04100;
+  background-color: #ffebda;
+  background-image: none;
+}
+
+.InterventionPeriodSection h3 {
+  @apply mb-3;
+  @apply mt-6;
+  @apply font-semibold;
+}

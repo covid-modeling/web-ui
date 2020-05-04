@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -e
+
+npx now alias $1 staging.covid-modeling.org

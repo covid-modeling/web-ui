@@ -1,0 +1,6 @@
+.Important {
+  @apply pl-2;
+  @apply my-2;
+
+  border-left: solid red 4px;
+}

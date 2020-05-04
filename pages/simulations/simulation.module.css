@@ -1,0 +1,65 @@
+.SimulationPage {
+  @apply mx-auto;
+  @apply px-8 pt-4 pb-8;
+  @apply h-full;
+}
+
+.SimulationBody {
+  @apply flex flex-wrap;
+  @apply items-stretch;
+}
+
+.SimulationLeft {
+  @apply mr-8;
+  @apply flex-none;
+  @apply w-80;
+}
+
+.SimulationRight {
+  @apply flex-1;
+}
+
+.Assumptions {
+  @apply mt-16;
+}
+
+.AssumptionsLinks {
+  @apply mt-6;
+}
+
+.AssumptionsLinks a {
+  @apply mr-4 py-3 px-4;
+  @apply text-sm;
+  @apply border rounded;
+}
+
+.regionHeading {
+  @apply text-sm;
+  @apply text-gray-600;
+}
+
+.modelInfoWrapper {
+  @apply grid-cols-1;
+
+  display: grid;
+  grid-column-gap: 1.5rem;
+  grid-row-gap: 1.5rem;
+}
+
+@screen sm {
+  .SimulationRight {
+    @apply min-w-full;
+  }
+}
+
+@screen md {
+  .modelInfoWrapper {
+    @apply grid-cols-2;
+  }
+}
+
+@screen lg {
+  .SimulationRight {
+    @apply min-w-0;
+  }
+}

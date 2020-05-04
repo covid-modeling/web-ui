@@ -1,0 +1,31 @@
+.Title {
+  @apply p-2;
+  @apply border-b;
+  @apply font-medium;
+  @apply text-sm;
+}
+
+.Row {
+  @apply flex;
+  @apply flex-row;
+  border-bottom: 1px solid #dbdbdb;
+  @apply font-mono;
+}
+
+.EvenRow {
+  composes: Row;
+  background-color: #fbfbfc;
+}
+
+.Label {
+  @apply p-2;
+  @apply w-64;
+}
+
+.Value {
+  composes: Label;
+  border-color: #dbdbdb;
+  @apply border-l;
+  @apply flex-auto;
+  font-feature-settings: 'tnum';
+}

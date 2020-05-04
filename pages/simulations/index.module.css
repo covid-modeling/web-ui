@@ -1,0 +1,9 @@
+.wrapper {
+  @apply flex flex-col;
+  @apply h-full;
+}
+
+.container {
+  @apply flex flex-col items-center justify-center;
+  @apply flex-1;
+}

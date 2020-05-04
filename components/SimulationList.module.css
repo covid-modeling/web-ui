@@ -1,0 +1,66 @@
+.list {
+  @apply rounded;
+  @apply border border-gray-400;
+  @apply shadow-sm;
+}
+
+.listItem {
+  @apply border-b;
+  @apply border-gray-300;
+  @apply bg-white;
+  @apply text-sm;
+}
+
+.listItem a {
+  @apply block;
+  @apply py-3 px-4;
+}
+
+.listItem:first-child {
+  @apply rounded-t;
+}
+
+.listItem:last-child {
+  @apply rounded-b;
+  @apply border-none;
+}
+
+.listItem .customTitle {
+  @apply mb-2;
+  @apply font-bold;
+}
+
+.listItem .region {
+  @apply block;
+  @apply mb-2;
+}
+
+.listItem time {
+  @apply block;
+  @apply text-gray-600;
+}
+
+.listItem.active {
+  @apply bg-blue;
+  @apply text-white;
+  border-bottom-color: #0356b4;
+}
+
+.listItem.active time {
+  color: #c8e1ff;
+}
+
+.listItem time svg {
+  @apply mr-2;
+  @apply relative;
+  @apply inline;
+  bottom: 1px;
+}
+
+.listItem.showMore {
+  @apply py-3 px-4;
+  @apply bg-gray-100;
+  @apply font-bold;
+  @apply text-gray-800;
+  @apply cursor-pointer;
+}

@@ -1,0 +1,7 @@
+/.next/
+/node_modules/
+!/.vscode/
+.now
+.env
+.env.build
+now.local.json

@@ -1,0 +1,8 @@
+.loadingBlock {
+  @apply border;
+  @apply rounded;
+  @apply flex flex-col items-center justify-center;
+  @apply shadow-sm;
+  min-height: 375px;
+  background-image: linear-gradient(180deg, #ffffff 0%, #fbfbfc 100%);
+}

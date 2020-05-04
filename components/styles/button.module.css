@@ -1,0 +1,25 @@
+.button {
+  @apply px-4 py-3;
+  @apply rounded;
+  @apply border border-gray-400;
+  @apply text-sm;
+  @apply shadow-sm;
+  @apply bg-white;
+  @apply text-center;
+}
+
+.button:focus {
+  @apply outline-none;
+}
+
+.button.orange {
+  @apply bg-orange-300;
+  @apply text-white;
+  @apply border-none;
+}
+
+.button.blue {
+  @apply bg-blue;
+  @apply text-white;
+  @apply border-none;
+}

@@ -1,0 +1,15 @@
+.box {
+  @apply mb-4;
+  @apply p-4;
+  @apply rounded;
+  @apply border;
+  @apply bg-white;
+  @apply shadow-sm;
+  @apply text-sm;
+  border-color: rgba(65, 67, 78, 0.25);
+}
+
+.box.error {
+  background-color: #ffeef0;
+  border-color: #f97583;
+}

@@ -1,0 +1,76 @@
+.SupportedParameters {
+  @apply inline;
+  @apply relative;
+  @apply ml-3;
+  @apply mr-10;
+
+  top: 0.25rem;
+  z-index: 1;
+}
+
+.UsedByButton {
+  @apply inline-flex;
+  @apply text-xxs;
+  @apply bg-gray-lightest;
+  @apply rounded-full;
+  @apply px-3 py-1;
+}
+
+.UsedByButton:focus {
+  outline: none;
+}
+
+.UsedByButton svg {
+  @apply mr-2;
+
+  width: 16px;
+  height: 16px;
+}
+
+.PopUp {
+  @apply border border-solid rounded;
+  @apply absolute;
+  @apply bg-white;
+  @apply p-2;
+
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
+  left: -3.9rem;
+  top: 25px;
+}
+
+.PopUp:before {
+  content: ' ';
+  top: -6px;
+  left: 77px;
+  height: 8px;
+  width: 8px;
+
+  border: 2px solid #e0e0e0;
+  border-right: none;
+  border-top: none;
+  background: white;
+  position: absolute;
+  pointer-events: none;
+  transform: rotate(135deg);
+}
+
+.Hidden {
+  display: none;
+}
+
+.PopUp h4 {
+  @apply font-semibold;
+
+  text-align: left;
+}
+
+.PopUp li {
+  @apply my-2;
+
+  text-align: left;
+  display: flex;
+}
+
+.PopUp li svg {
+  color: green;
+}

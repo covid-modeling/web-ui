@@ -1,0 +1,55 @@
+basel:
+  name: Covid19-Scenarios (Neher)
+  origin: Neher Lab, Biozentrum Basel
+  isProductionReady: true
+  imageURL: docker.pkg.github.com/covid-modeling/model-runner/neherlab-covid-19-scenarios-connector:0.9.1
+  metaURLs:
+    code: https://github.com/neherlab/covid19_scenarios
+    website: https://covid19-scenarios.org/about
+  description: |
+    We implement an age-stratified SEIR model with additional categories
+    for individuals exposed to the virus that are not yet infectious, severely sick
+    people in need of hospitalization, people in critical condition, and a fatal category.
+    The model is currently under active development and the US state level parameters are under review.
+  supportedParameters:
+    - contactReduction
+    - r0
+
+mrc-ide-covid-sim:
+  name: CovidSim (Imperial)
+  origin: Imperial College
+  isProductionReady: true
+  imageURL: docker.pkg.github.com/covid-modeling/model-runner/mrc-ide-covidsim-connector:0.9.2
+  metaURLs:
+    code: https://github.com/mrc-ide/covid-sim
+    paper: https://www.imperial.ac.uk/media/imperial-college/medicine/sph/ide/gida-fellowships/Imperial-College-COVID19-NPI-modelling-16-03-2020.pdf
+  description: |
+    We consider the feasibility and implications of strategies for COVID-19,
+    looking at a range of NPI measures. It is important to note at the outset
+    that given SARS-CoV-2 is a newly emergent virus, much remains to be
+    understood about its transmission. In addition, the impact of many of the
+    NPIs detailed here depends critically on how people respond to their
+    introduction, which is highly likely to vary between countries and even
+    communities.
+  supportedParameters:
+    - interventionStrategies
+    - r0
+
+mc19:
+  name: Modeling Covid-19
+  origin: Modeling Covid-19
+  imageURL: docker.pkg.github.com/covid-modeling/model-runner/modelingcovid-covidmodel-connector:0.3.0
+  isProductionReady: false
+  metaURLs:
+    code: https://github.com/modelingcovid/covidmodel
+    paper: https://dash.harvard.edu/bitstream/handle/1/42638988/Social%20distancing%20strategies%20for%20curbing%20the%20Covid-19%20epidemic.pdf?sequence=1&isAllowed=y
+    website: https://covidmodel-flax.now.sh/about
+  description: |
+    We’ve implemented a model for the spread of the virus which is an enrichment
+    of the basic SEIR model with adjustments for distancing and adding PCR confirmation
+    and Fatality states. This allows us to fit the solutions of the system of SEIR equations
+    to actual data as reported by various states. We then use a combination of parameters
+    from the fits and literature values to generate Monte Carlo simulations around the
+    fit expectations to get a sense of our uncertainty in the projections.
+  supportedParameters:
+    - contactReduction

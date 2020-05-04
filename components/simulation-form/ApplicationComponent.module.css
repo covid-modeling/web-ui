@@ -1,0 +1,17 @@
+.Content {
+  @apply flex-1;
+  @apply p-3;
+  @apply rounded;
+
+  background-color: #f7f7f9;
+  border: 1px solid #e2e8f0;
+}
+
+.Heading h3 {
+  @apply font-semibold;
+}
+
+.Heading p,
+.Content p {
+  color: #52555F;
+}

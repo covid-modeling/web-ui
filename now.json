@@ -1,0 +1,38 @@
+{
+  "regions": ["iad1"],
+  "alias": "staging.covid-modeling.org",
+  "build": {
+    "env": {
+      "BLOB_STORAGE_ACCOUNT": "@staging-blob-storage-account",
+      "BLOB_STORAGE_CONTAINER": "@staging-blob-storage-container",
+      "BLOB_STORAGE_KEY": "@staging-blob-storage-key",
+      "GITHUB_CLIENT_ID": "@staging-github-client-id",
+      "SENTRY_DSN": "@prod-sentry-dsn",
+      "SENTRY_AUTH_TOKEN": "@prod-sentry-token",
+      "SENTRY_ORG": "github-disease-modelling",
+      "SENTRY_PROJECT": "web-api-ui",
+      "APP_ENVIRONMENT": "staging",
+      "SESSION_SECRET": "@staging-session-secret"
+    }
+  },
+  "env": {
+    "GITHUB_CLIENT_ID": "@staging-github-client-id",
+    "GITHUB_CLIENT_SECRET": "@staging-github-client-secret",
+    "GITHUB_API_TOKEN": "@prod-github-api-token",
+    "CONTROL_REPO_NWO": "covid-modeling/staging-covid19-control-plane",
+    "CONTROL_REPO_EVENT_TYPE": "run-simulation",
+    "DB_USERNAME": "@staging-mysql-username",
+    "DB_PASSWORD": "@staging-mysql-password",
+    "DB_HOST": "@staging-mysql-host",
+    "DB_DATABASE": "@staging-mysql-database",
+    "RUNNER_SHARED_SECRET": "@staging-runner-shared-secret",
+    "RUNNER_CALLBACK_URL": "https://staging.covid-modeling.org",
+    "BLOB_STORAGE_ACCOUNT": "@staging-blob-storage-account",
+    "BLOB_STORAGE_CONTAINER": "@staging-blob-storage-container",
+    "BLOB_STORAGE_KEY": "@staging-blob-storage-key",
+    "OAUTH_SECRET": "@staging-oauth-secret",
+    "SESSION_SECRET": "@staging-session-secret",
+    "SENTRY_DSN": "@prod-sentry-dsn",
+    "APP_ENVIRONMENT": "staging"
+  }
+}

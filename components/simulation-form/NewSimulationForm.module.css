@@ -1,0 +1,31 @@
+.NewSimulationForm {
+  @apply mx-auto;
+  margin-top: 49px;
+  max-width: 595px;
+}
+
+.NewSimulationForm h1 {
+  @apply mt-2 mb-14;
+  @apply font-bold;
+  @apply text-2xl;
+}
+
+.SimulationLabel {
+  @apply border;
+  @apply rounded;
+  @apply text-black;
+  @apply py-3 px-4;
+  @apply my-2;
+
+  border-color: #cccccc;
+  width: 100%;
+  text-align: left;
+}
+
+.NewSimulationForm p {
+  @apply mt-4 mb-2;
+}
+
+.ButtonMessage {
+  @apply px-2;
+}

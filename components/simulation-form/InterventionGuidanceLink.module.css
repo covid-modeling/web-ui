@@ -1,0 +1,22 @@
+.link {
+  @apply flex;
+  @apply items-center justify-center;
+  @apply rounded;
+  @apply mt-2;
+  @apply p-3;
+
+  background-color: #f7f7f9;
+}
+
+.link .logo {
+  width: 16px;
+}
+
+.link .text {
+  @apply flex-1;
+  @apply m-0 p-0 ml-3;
+}
+
+.link .chevron {
+  @apply transform -rotate-90;
+}

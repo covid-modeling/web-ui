@@ -1,0 +1,95 @@
+#!/usr/bin/env node
+
+const crypto = require('crypto')
+const fs = require('fs')
+const path = require('path')
+const prompts = require('prompts')
+const yaml = require('js-yaml')
+const envfile = require('envfile')
+const currentEnv = readEnv()
+
+/**
+ * @typedef {Object} spec
+ * @property {string} description
+ * @property {boolean | undefined} local_mode
+ * @property {boolean | undefined} secret
+ * @property {string | undefined} default
+ * @property {generate | undefined} generate
+ */
+
+/**
+ * @typedef {Object} generate
+ * @property {boolean | undefined} secret
+ */
+
+/**
+ * @type {Record<string, spec>}
+ */
+const envSpec = yaml.load(
+  fs.readFileSync(path.join(__dirname, '../env.yml')).toString()
+)
+
+async function main() {
+  const {LOCAL_MODE} = await prompts({
+    type: 'confirm',
+    name: 'LOCAL_MODE',
+    message: 'Run in local mode, where remote data is stubbed?'
+  })
+
+  const result = LOCAL_MODE ? {...currentEnv, LOCAL_MODE: true} : currentEnv
+
+  for (const key in envSpec) {
+    const spec = envSpec[key]
+
+    if (key === 'LOCAL_MODE') {
+      continue
+    }
+
+    if (LOCAL_MODE && spec.local_mode === false) {
+      continue
+    }
+
+    let defaultValue = currentEnv[key] || spec.default
+
+    if (!defaultValue && spec.generate && spec.generate.secret) {
+      defaultValue = crypto.randomBytes(32).toString('hex')
+    }
+
+    const response = await prompts({
+      type: 'text',
+      name: key,
+      message: spec.description,
+      initial: defaultValue,
+      style: spec.secret ? 'password' : 'default'
+    })
+
+    result[key] = response[key]
+  }
+
+  const finalEnv = Object.entries(result).reduce(
+    (dotenv, [key, value]) => dotenv + `${key}=${value}\n`,
+    ``
+  )
+
+  fs.writeFileSync(path.join(__dirname, '../.env'), finalEnv)
+}
+
+main()
+  .then(() => {
+    process.exit(0)
+  })
+  .catch(err => {
+    console.error(err)
+    process.exit(1)
+  })
+
+function readEnv() {
+  let env
+  try {
+    env = fs.readFileSync(path.join(__dirname, '../.env')).toString()
+  } catch (err) {
+    return {}
+  }
+
+  return envfile.parseSync(env)
+}
