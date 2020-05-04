@@ -86,6 +86,7 @@ export default class WebApp extends App {
             name="Description"
             content={`A tool for understanding the impact of parameter changes on the results of COVID simulation runs`}
           />
+          <link rel="icon" type="image/x-icon" href="/images/favicon.png" />
         </Head>
 
         <SentryContext.Provider value={{captureException, captureMessage}}>
