@@ -1,4 +1,4 @@
-# GitHub COVID Modelling Web UI [![.github/workflows/deploy.yml](https://github.com/covid-modeling/web/workflows/.github/workflows/deploy.yml/badge.svg?branch=master)](https://github.com/covid-modeling/web/actions?query=branch%3Amaster)
+# COVID Modelling Web UI [![.github/workflows/deploy.yml](https://github.com/covid-modeling/web/workflows/.github/workflows/deploy.yml/badge.svg?branch=master)](https://github.com/covid-modeling/web/actions?query=branch%3Amaster)
 
 This is a [Next.js][nextjs] application that serves the GitHub
 COVID modelling web interface. It is hosted on [Vercel][vercel].
@@ -6,7 +6,7 @@ COVID modelling web interface. It is hosted on [Vercel][vercel].
 The needs of the unified modelling project are changing rapidly, and so we do
 not have a set-in-stone development roadmap. This application is built with
 the goal of it hopefully being not too difficult to alter or even rewrite
-parts of it as requirements change. 
+parts of it as requirements change.
 
 To learn more about this project's goals, please see [PROJECT-INTENT.md](PROJECT-INTENT.md)
 
@@ -21,7 +21,7 @@ access to some shared credentials and accounts.
 ### Shared Setup (for both local and advanced modes)
 
 1. Install and start [Docker][docker].
-1. Get the [GitHub OAuth development app][oauth] client ID and secret. You'll be prompted for them shortly.
+1. Get the [OAuth development app][oauth] client ID and secret. You'll be prompted for them shortly.
 1. Clone this repository:
 
    ```shell
