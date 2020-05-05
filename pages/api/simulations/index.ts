@@ -1,3 +1,4 @@
+import {input, RunStatus} from '@covid-modeling/api'
 import {captureException} from '@sentry/node'
 import {ServerlessMysql} from 'serverless-mysql'
 import 'source-map-support/register'
@@ -19,7 +20,6 @@ import {
   validateSchema
 } from '../../../lib/new-simulation-state'
 import {Session} from '../../../lib/session'
-import {ModelInput, RunStatus} from '../../../types/model-runner'
 import dispatch from '../util/dispatch'
 import requireSession from '../util/require-session'
 
@@ -77,7 +77,7 @@ async function createAndDispatchSimulation(
     config.subregionID
   )
 
-  const modelInput: Omit<ModelInput, 'model'> = {
+  const modelInput: Omit<input.ModelInput, 'model'> = {
     region: config.regionID,
     subregion: config.subregionID,
     parameters: {

@@ -1,4 +1,4 @@
-import {Intensity} from '../types/model-runner'
+import {input} from '@covid-modeling/api'
 import {InterventionPeriod, StrategyKey} from './new-simulation-state'
 
 /**
@@ -10,26 +10,29 @@ import {InterventionPeriod, StrategyKey} from './new-simulation-state'
  */
 
 // Bit values for interventions =
-const interventionValues: Record<StrategyKey, Record<Intensity, number>> = {
+const interventionValues: Record<
+  StrategyKey,
+  Record<input.Intensity, number>
+> = {
   schoolClosure: {
-    [Intensity.Mild]: 1,
-    [Intensity.Moderate]: 2,
-    [Intensity.Aggressive]: 4
+    [input.Intensity.Mild]: 1,
+    [input.Intensity.Moderate]: 2,
+    [input.Intensity.Aggressive]: 4
   },
   voluntaryHomeQuarantine: {
-    [Intensity.Mild]: 8,
-    [Intensity.Moderate]: 16,
-    [Intensity.Aggressive]: 32
+    [input.Intensity.Mild]: 8,
+    [input.Intensity.Moderate]: 16,
+    [input.Intensity.Aggressive]: 32
   },
   caseIsolation: {
-    [Intensity.Mild]: 64,
-    [Intensity.Moderate]: 128,
-    [Intensity.Aggressive]: 256
+    [input.Intensity.Mild]: 64,
+    [input.Intensity.Moderate]: 128,
+    [input.Intensity.Aggressive]: 256
   },
   socialDistancing: {
-    [Intensity.Mild]: 512,
-    [Intensity.Moderate]: 1024,
-    [Intensity.Aggressive]: 2048
+    [input.Intensity.Mild]: 512,
+    [input.Intensity.Moderate]: 1024,
+    [input.Intensity.Aggressive]: 2048
   }
 }
 
@@ -40,9 +43,9 @@ const contactReductionTable = (() => {
   const hq = 'voluntaryHomeQuarantine'
   const ci = 'caseIsolation'
   const sd = 'socialDistancing'
-  const Mi = Intensity.Mild
-  const Mo = Intensity.Moderate
-  const Ag = Intensity.Aggressive
+  const Mi = input.Intensity.Mild
+  const Mo = input.Intensity.Moderate
+  const Ag = input.Intensity.Aggressive
 
   /**
    * Data provided by Neil Ferguson of Imperial College, roughly based on

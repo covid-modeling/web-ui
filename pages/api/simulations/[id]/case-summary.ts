@@ -1,12 +1,8 @@
+import {input, output} from '@covid-modeling/api'
 import {DateTime} from 'luxon'
 import {last} from '../../../../lib/arrayMath'
 import * as db from '../../../../lib/db'
 import {withDB} from '../../../../lib/mysql'
-import {
-  ISODate,
-  ModelOutput,
-  SeverityMetrics
-} from '../../../../types/model-runner'
 import {getBlob} from '../../util/blob-storage'
 import dispatch from '../../util/dispatch'
 import requireSession from '../../util/require-session'
@@ -15,7 +11,7 @@ export type CaseSummary = {
   cConf: number
   cHosp: number
   cDeaths: number
-  peakDeath: ISODate
+  peakDeath: input.ISODate
   peakDailyDeath: number
 }
 
@@ -68,7 +64,7 @@ export default withDB(conn =>
 
 async function fetchSimulationResults(
   sim: db.Simulation
-): Promise<ModelOutput[]> {
+): Promise<output.ModelOutput[]> {
   // Get all the raw results.
   const allRaw = await Promise.all(
     sim.model_runs.map(run =>
@@ -77,11 +73,11 @@ async function fetchSimulationResults(
   )
 
   // Parse all the raw results we found.
-  return allRaw.filter(isResult).map(r => JSON.parse(r) as ModelOutput)
+  return allRaw.filter(isResult).map(r => JSON.parse(r) as output.ModelOutput)
 }
 
 // Sum of all case types.
-function getCumulativeConfirmed(met: SeverityMetrics): number {
+function getCumulativeConfirmed(met: output.SeverityMetrics): number {
   return (
     last(met.cumMild) +
     last(met.cumILI) +
@@ -91,12 +87,12 @@ function getCumulativeConfirmed(met: SeverityMetrics): number {
 }
 
 // Sum of all deaths.
-function getCumulativeDeaths(met: SeverityMetrics): number {
+function getCumulativeDeaths(met: output.SeverityMetrics): number {
   return met.incDeath.reduce((s, m) => s + m, 0)
 }
 
 // Sum of normal and ICU hospital beds.
-function getCumulativeHospitalized(met: SeverityMetrics): number {
+function getCumulativeHospitalized(met: output.SeverityMetrics): number {
   return last(met.cumSARI) + last(met.cumCritRecov) + last(met.cumCritical)
 }
 

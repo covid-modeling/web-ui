@@ -1,5 +1,5 @@
+import {input} from '@covid-modeling/api'
 import Joi from '@hapi/joi'
-import {Intensity, InterventionPeriod, ISODate} from '../types/model-runner'
 import {isGreater} from './dateFunctions'
 
 export const interventionStrategySchema = Joi.object({
@@ -15,16 +15,16 @@ export const interventionStrategySchema = Joi.object({
     .custom(validateReductionPerc),
   socialDistancing: Joi.string()
     .label('Social distancing')
-    .valid(...Object.values(Intensity)),
+    .valid(...Object.values(input.Intensity)),
   schoolClosure: Joi.string()
     .label('School closure')
-    .valid(Intensity.Aggressive),
+    .valid(input.Intensity.Aggressive),
   caseIsolation: Joi.string()
     .label('Case isolation')
-    .valid(Intensity.Aggressive),
+    .valid(input.Intensity.Aggressive),
   voluntaryHomeQuarantine: Joi.string()
     .label('Voluntary home quarantine')
-    .valid(Intensity.Aggressive)
+    .valid(input.Intensity.Aggressive)
 })
 
 export const newSimulationSchema = Joi.object({
@@ -64,8 +64,8 @@ function validateReductionPerc(
 }
 
 function validatePeriodsChronology(
-  startDate: ISODate,
-  helpers: Joi.CustomHelpers<InterventionPeriod>
+  startDate: input.ISODate,
+  helpers: Joi.CustomHelpers<input.InterventionPeriod>
 ) {
   // This is a little bit of a cheat because Joi doesn't tell us what index
   // we're at in the list.
@@ -81,7 +81,7 @@ function validatePeriodsChronology(
 }
 
 function validateMinimumOneInterventionStrategy(
-  interventionPeriods: InterventionPeriod[],
+  interventionPeriods: input.InterventionPeriod[],
   helpers: Joi.CustomHelpers
 ) {
   let hasAtLeastOneStrategy = false

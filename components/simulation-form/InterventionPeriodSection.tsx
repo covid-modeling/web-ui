@@ -1,8 +1,8 @@
+import {input} from '@covid-modeling/api'
 import Joi from '@hapi/joi'
 import {useMemo} from 'react'
 import {SupportedParameter} from '../../lib/models'
 import {
-  Intensity,
   InterventionPeriod,
   StrategyDescriptions,
   StrategyKey
@@ -12,7 +12,6 @@ import SocialDistancingGraphic from '../../svg/SocialDistancingGraphic.svg'
 import Trash from '../../svg/Trash.svg'
 import Unacast from '../../svg/Unacast.svg'
 import Warn from '../../svg/Warn.svg'
-import {ISODate} from '../../types/model-runner'
 import formStyle from '../styles/form.module.css'
 import DateInput from './DateInput'
 import {ErrorList} from './ErrorMessage'
@@ -27,7 +26,7 @@ interface Props {
   onChange: (config: Partial<InterventionPeriod>) => void
   onChangeIntervention: (update: Pick<InterventionPeriod, StrategyKey>) => void
   remove: () => void
-  priorPeriodStartDate: ISODate | undefined
+  priorPeriodStartDate: input.ISODate | undefined
   error: Joi.ValidationError | null
   index: number
 }
@@ -98,9 +97,9 @@ export default function InterventionPeriodSection(props: Props) {
                 descriptions={description.intensities}
                 intensity={
                   props.period[strategyKey as StrategyKey] ||
-                  Intensity.Aggressive
+                  input.Intensity.Aggressive
                 }
-                onChange={(enabled: boolean, intensity: Intensity) =>
+                onChange={(enabled: boolean, intensity: input.Intensity) =>
                   props.onChangeIntervention({
                     [strategyKey]: enabled ? intensity : undefined
                   })
@@ -188,9 +187,9 @@ export default function InterventionPeriodSection(props: Props) {
 interface StrategyProps {
   enabled: boolean
   label: string
-  descriptions?: Record<Intensity, string>
-  intensity: Intensity
-  onChange: (enabled: boolean, intensity: Intensity) => void
+  descriptions?: Record<input.Intensity, string>
+  intensity: input.Intensity
+  onChange: (enabled: boolean, intensity: input.Intensity) => void
 }
 
 function Strategy(props: StrategyProps) {
@@ -217,7 +216,7 @@ function Strategy(props: StrategyProps) {
       </div>
       {props.descriptions && props.enabled && (
         <ul className={styles.Intensities}>
-          {Object.entries(Intensity).map(([label, intensity]) => (
+          {Object.entries(input.Intensity).map(([label, intensity]) => (
             <li key={intensity} className={styles.Intensity}>
               <input
                 type="radio"

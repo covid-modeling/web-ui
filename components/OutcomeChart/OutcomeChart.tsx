@@ -1,3 +1,4 @@
+import {input, output} from '@covid-modeling/api'
 import classNames from 'classnames'
 import * as d3 from 'd3'
 import {ScaleLinear, ScaleLogarithmic, ScaleTime} from 'd3'
@@ -8,7 +9,6 @@ import {maxIndex} from '../../lib/arrayMath'
 import {StrategyDescriptions, StrategyKey} from '../../lib/new-simulation-state'
 import Pushpin from '../../svg/Pushpin.svg'
 import {CaseData} from '../../types/case-data'
-import {Intensity, ModelOutput, SeverityMetrics} from '../../types/model-runner'
 import {ChartColors, ChartColorsType} from './chartColors'
 import Interventions from './Interventions'
 import OutcomeChartActual from './OutcomeChartActual'
@@ -20,7 +20,7 @@ import OutcomeChartXAxis from './OutcomeChartXAxis'
 import OutcomeChartYAxis from './OutcomeChartYAxis'
 import SVGLinePattern from './SVGLinePattern'
 
-type KeyOrMetricsAccessor = string | ((m: SeverityMetrics) => number[])
+type KeyOrMetricsAccessor = string | ((m: output.SeverityMetrics) => number[])
 type KeyOrCaseDataAccessor = string | ((m: CaseData) => number[])
 export type ScaleYType = 'linear' | 'logarithmic'
 export type ScaleXDomainMonths = number | null
@@ -62,7 +62,7 @@ export type PreparedMetricsSeries = {
 }
 
 type OutcomeChartProps = {
-  result: ModelOutput
+  result: output.ModelOutput
   caseData?: CaseData
   title?: string
   config: OutcomeChartConfiguration[][]
@@ -83,7 +83,7 @@ export type Intervention = {
   ranges: {
     start: DateTime
     end: DateTime
-    degree: Intensity
+    degree: input.Intensity
   }[]
 }
 
@@ -199,9 +199,9 @@ const OutcomeChart: FunctionComponent<OutcomeChartProps> = ({
       // if we were handed an accessor, use that to fetch the series to datumize
       switch (typeof k) {
         case 'string':
-          return result.aggregate.metrics[k as keyof SeverityMetrics].map(
-            datumize
-          )
+          return result.aggregate.metrics[
+            k as keyof output.SeverityMetrics
+          ].map(datumize)
 
         case 'function':
           return k(result.aggregate.metrics).map(datumize)

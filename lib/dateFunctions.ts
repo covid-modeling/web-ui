@@ -1,5 +1,5 @@
+import {input} from '@covid-modeling/api'
 import {DateTime} from 'luxon'
-import {ISODate} from '../types/model-runner'
 
 export function toYYYYMMDD(date?: Date) {
   // ensure UTC date is the same as date in current TZ
@@ -14,7 +14,7 @@ export function isValidDate(d: string): boolean {
   return !!(d && d.length === 10 && new Date(d).getTime())
 }
 
-export function addDays(d: ISODate, days: number): ISODate {
+export function addDays(d: input.ISODate, days: number): input.ISODate {
   return DateTime.fromISO(d)
     .plus({days})
     .toISODate()
@@ -25,7 +25,7 @@ export function addDays(d: ISODate, days: number): ISODate {
  *
  * @param dates ISO Date strings to find the max for
  */
-export function maxDate(...dates: ISODate[]): ISODate {
+export function maxDate(...dates: input.ISODate[]): input.ISODate {
   return dates.reduce((greatestDate, date) => {
     if (!greatestDate) {
       return date
@@ -45,6 +45,9 @@ export function maxDate(...dates: ISODate[]): ISODate {
  * @param object
  * @return true if subject is greater than object
  */
-export function isGreater(thisDate: ISODate, other: ISODate): boolean {
+export function isGreater(
+  thisDate: input.ISODate,
+  other: input.ISODate
+): boolean {
   return thisDate.localeCompare(other) > 0
 }

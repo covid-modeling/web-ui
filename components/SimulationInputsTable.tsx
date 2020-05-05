@@ -1,12 +1,12 @@
+import {input} from '@covid-modeling/api'
 import {StrategyDescriptions} from '../lib/new-simulation-state'
 import Check from '../svg/Check.svg'
-import {InterventionPeriod, ModelInput} from '../types/model-runner'
 import LocalDate from './LocalDate'
 import styles from './SimulationInputsTable.module.css'
 import Table from './Table'
 
 type Props = {
-  inputs: ModelInput
+  inputs: input.ModelInput
 }
 
 export default function SimulationInputsTable(props: Props) {
@@ -39,7 +39,7 @@ export default function SimulationInputsTable(props: Props) {
               </td>
               {Object.keys(StrategyDescriptions).map(strat => {
                 const intensity = String(
-                  pd[strat as keyof InterventionPeriod] || ''
+                  pd[strat as keyof input.InterventionPeriod] || ''
                 )
 
                 return (
