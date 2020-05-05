@@ -7,6 +7,7 @@ const URL = require('url')
 const {DateTime} = require('luxon')
 const mysql = require('serverless-mysql')
 const d3 = require('d3')
+const _ = require('lodash')
 
 const cacheDir = process.argv[2]
 if (cacheDir === '--help') {
@@ -29,13 +30,7 @@ INFO
   process.exit(0)
 }
 
-const hopkinsBaseURL =
-  'https://raw.githubusercontent.com/' +
-  'CSSEGISandData/COVID-19/' +
-  'master/csse_covid_19_data/csse_covid_19_time_series'
-const hopkinsConfirmedURL = `${hopkinsBaseURL}/time_series_covid19_confirmed_global.csv`
-const hopkinsDeathURL = `${hopkinsBaseURL}/time_series_covid19_deaths_global.csv`
-const hopkinsRecoveredURL = `${hopkinsBaseURL}/time_series_covid19_recovered_global.csv`
+const ecdcCasesURL = `https://opendata.ecdc.europa.eu/covid19/casedistribution/json/`
 const covidTrackingURL = 'https://covidtracking.com/api/v1/states/daily.json'
 const usInterventionsURL = `https://raw.githubusercontent.com/COVID19StatePolicy/SocialDistancing/master/data/USstatesCov19distancingpolicy.csv`
 
@@ -59,9 +54,7 @@ const db = mysql({
 async function main() {
   // Fetch the raw data
   const usaCasesJSON = await fetchCached(covidTrackingURL, cacheDir)
-  const globalConfirmedCSV = await fetchCached(hopkinsConfirmedURL, cacheDir)
-  const globalRecoveredCSV = await fetchCached(hopkinsRecoveredURL, cacheDir)
-  const globalDeathsCSV = await fetchCached(hopkinsDeathURL, cacheDir)
+  const ecdcCasesJSON = await fetchCached(ecdcCasesURL, cacheDir)
   const usInterventionsCSV = await fetchCached(usInterventionsURL, cacheDir)
 
   // Parse the US case data
@@ -73,13 +66,7 @@ async function main() {
       const subregionID = `US-${row.state}`
 
       // Date is an integer with digits YYYYMMDD
-      const dateString = row.date.toString()
-      const date = new Date(
-        dateString.slice(0, 4),
-        parseInt(dateString.slice(4, 6), 10) - 1,
-        dateString.slice(6)
-      )
-      const dateSQL = DateTime.fromJSDate(date).toISODate()
+      const dateSQL = DateTime.fromFormat(row.date.toString(), 'yyyyMMdd').toISODate()
 
       // Fill in null values with the last non-null value or zero
       const current =
@@ -98,44 +85,51 @@ async function main() {
       ]
     })
 
-  // Parse the UK case data
-  const ukCaseRecordsByDate = {}
-  for (const [metric, csv] of [
-    ['confirmed', globalConfirmedCSV],
-    ['recovered', globalRecoveredCSV],
-    ['deaths', globalDeathsCSV]
-  ]) {
-    // Parse the CSV and find the row that corresponds to the entire UK
-    const data = parseCSV(csv)
-    const ukRow = data.findIndex(
-      row => row[0] === '' && row[1] === 'United Kingdom'
+  // Parse the non-us case data
+  const ecdcCases = JSON.parse(ecdcCasesJSON).records
+  const worldRows = _.chain(ecdcCases)
+    // Group by country
+    .groupBy('geoId')
+    // Sort the per day entries so that we can calculate the cumulative values correctly.
+    .mapValues(v => _.sortBy(v, ['year', 'month', 'day']))
+    .mapValues(v =>
+      _.reduce(
+        v,
+        (acc, o) => {
+          const preCumCases =
+            acc.length !== 0 ? acc[acc.length - 1].cumCases : 0
+          const preCumDeaths =
+            acc.length !== 0 ? acc[acc.length - 1].cumDeaths : 0
+          // Create cumulative values in addition to the daily values.
+          o.cumCases = preCumCases + parseInt(o.cases)
+          o.cumDeaths = preCumDeaths + parseInt(o.deaths)
+          acc.push(o)
+          return acc
+        },
+        []
+      )
     )
-    if (ukRow === -1) {
-      throw new Error(`No United Kingdom row in ${metric} dataset`)
-    }
-
-    // Combine the data from the per-metric CSVs by building up an object
-    // whose keys are dates, and whose values contain all the metrics.
-    const METADATA_COLS = 4
-    for (let i = METADATA_COLS; i < data[0].length; i++) {
-      const dateString = data[0][i]
-      let record = ukCaseRecordsByDate[dateString]
-      if (!record) {
-        // Date is a string with format MM/DD/YY
-        const [month, day, year] = dateString.split('/')
-        const date = new Date('20' + year, parseInt(month, 10) - 1, day)
-        record = ukCaseRecordsByDate[dateString] = {
-          date: DateTime.fromJSDate(date).toISODate()
-        }
+    .values()
+    .flatten()
+    // Remove any US data since we get that from another source.
+    .filter(o => o.geoId !== 'US')
+    .map(o => [
+      o.geoId,
+      null,
+      DateTime.fromFormat(o.dateRep, 'dd/MM/yyyy').toISO(),
+      o.cumCases,
+      0,
+      o.cumDeaths
+    ])
+    .forEach(r => {
+      // They use UK as the country code, but we expect GB, so switch them.
+      if (r[0] === 'UK') {
+        r[0] = 'GB'
       }
-      record[metric] = parseFloat(data[ukRow][i], 10)
-    }
-  }
-  const ukCaseRecords = Object.values(ukCaseRecordsByDate).map(r => {
-    return ['GB', null, r.date, r.confirmed, r.recovered, r.deaths]
-  })
+    })
+    .value()
 
-  const caseRecords = usCaseRecords.concat(ukCaseRecords)
+  const caseRecords = usCaseRecords.concat(worldRows)
 
   // Parse the US intervention data
   const usInterventionRecords = []
@@ -266,10 +260,6 @@ async function fetchCached(url, cacheDir) {
     }
     return result
   }
-}
-
-function parseCSV(data) {
-  return data.split('\n').map(line => line.split(','))
 }
 
 main()
