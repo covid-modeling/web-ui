@@ -1,10 +1,10 @@
+import {output} from '@covid-modeling/api'
 import {DateTime} from 'luxon'
 import {cumsum, elementSum, last, maxIndex} from '../lib/arrayMath'
-import {ModelOutput} from '../types/model-runner'
 import ResultTable from './ResultTable'
 
 type Props = {
-  result: ModelOutput
+  result: output.ModelOutput
 }
 
 export default function ResultTables(props: Props) {

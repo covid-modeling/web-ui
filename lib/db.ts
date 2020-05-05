@@ -1,10 +1,10 @@
+import {input, RunStatus} from '@covid-modeling/api'
 import omit from 'lodash/omit'
 import {DateTime} from 'luxon'
 import {ServerlessMysql} from 'serverless-mysql'
 import SQL from 'sql-template-strings'
 import Models from '../lib/models'
 import {CaseData} from '../types/case-data'
-import {ISODate, ModelInput, RunStatus} from '../types/model-runner'
 import {initSentry} from './sentry'
 import {Session} from './session'
 import {
@@ -24,7 +24,7 @@ export type Simulation = {
   subregion_id: string | undefined
   github_user_id: number
   github_user_login: string
-  configuration: ModelInput
+  configuration: input.ModelInput
   model_runs: ModelRun[]
   label: string
   created_at: string
@@ -161,7 +161,7 @@ export async function createSimulation(
     github_user_id: string
     github_user_login: string
     label: string
-    configuration: Omit<ModelInput, 'model'>
+    configuration: Omit<input.ModelInput, 'model'>
   }
 ): Promise<{insertId: number}> {
   return conn.query(SQL`
@@ -309,7 +309,7 @@ function summarizeStrategies(simulation: Simulation): SimulationSummary {
     if (!simulation.configuration) {
       summary.configurationSummary = ''
     } else {
-      const input = simulation.configuration as ModelInput
+      const input = simulation.configuration as input.ModelInput
       summary.configurationSummary = Object.keys(input.parameters)
         .map(key => ParameterAbbreviations[key] || '')
         .filter(val => val)
@@ -331,7 +331,7 @@ export async function getRegionCaseData(
 ): Promise<{
   deaths: number | null
   confirmed: number | null
-  endDate: ISODate | null
+  endDate: input.ISODate | null
 }> {
   const subregionQuery = subregionID
     ? SQL`\nAND subregion_id = ${subregionID}`

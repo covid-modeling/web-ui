@@ -1,8 +1,8 @@
+import {input} from '@covid-modeling/api'
 import {DateTime} from 'luxon'
-import {ISODate} from '../types/model-runner'
 
 type Props = {
-  isoDate: ISODate
+  isoDate: input.ISODate
 }
 
 export default function LocalDate(props: Props) {

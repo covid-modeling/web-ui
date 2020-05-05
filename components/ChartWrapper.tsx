@@ -1,3 +1,4 @@
+import {output, RunStatus} from '@covid-modeling/api'
 import {DateTime} from 'luxon'
 import {useMemo, useState} from 'react'
 import {animated, useSpring} from 'react-spring'
@@ -5,7 +6,6 @@ import USCapacityData from '../data/hospitals/us.json'
 import {cumsum, elementSum} from '../lib/arrayMath'
 import {ModelRun, Simulation} from '../lib/db'
 import {CaseData} from '../types/case-data'
-import {ModelOutput, RunStatus, SeverityMetrics} from '../types/model-runner'
 import ModelSelect from './ModelSelect'
 import OutcomeChart, {
   OutcomeChartConfiguration,
@@ -29,7 +29,7 @@ interface Props {
   subregionName: string | undefined
   simulation: Simulation
   modelRun: ModelRun
-  result: ModelOutput
+  result: output.ModelOutput
   caseData: CaseData
   onChangeModel: (slug: string) => void
 }
@@ -96,7 +96,8 @@ export default function ChartWrapper(props: Props) {
           color: 'black',
           projected: {
             values: 'incDeath',
-            cumulative: (metrics: SeverityMetrics) => cumsum(metrics.incDeath)
+            cumulative: (metrics: output.SeverityMetrics) =>
+              cumsum(metrics.incDeath)
           },
           actual: {
             values: 'deaths',
@@ -109,14 +110,14 @@ export default function ChartWrapper(props: Props) {
           title: 'Infections',
           color: 'blue',
           projected: {
-            values: (metrics: SeverityMetrics) =>
+            values: (metrics: output.SeverityMetrics) =>
               elementSum([
                 metrics.Mild,
                 metrics.ILI,
                 metrics.SARI,
                 metrics.Critical
               ]),
-            cumulative: (metrics: SeverityMetrics) =>
+            cumulative: (metrics: output.SeverityMetrics) =>
               elementSum([
                 metrics.cumMild,
                 metrics.cumILI,
@@ -136,9 +137,9 @@ export default function ChartWrapper(props: Props) {
           title: 'Normal Hospital Beds',
           color: 'purple',
           projected: {
-            values: (metrics: SeverityMetrics) =>
+            values: (metrics: output.SeverityMetrics) =>
               elementSum([metrics.SARI, metrics.CritRecov]),
-            cumulative: (metrics: SeverityMetrics) =>
+            cumulative: (metrics: output.SeverityMetrics) =>
               elementSum([metrics.cumSARI, metrics.cumCritRecov])
           },
           capacity: normalBedsCapacity
@@ -156,9 +157,9 @@ export default function ChartWrapper(props: Props) {
           title: 'Ventilators Required',
           color: 'pink',
           projected: {
-            values: (metrics: SeverityMetrics) =>
+            values: (metrics: output.SeverityMetrics) =>
               metrics.Critical.map(m => m / 2),
-            cumulative: (metrics: SeverityMetrics) =>
+            cumulative: (metrics: output.SeverityMetrics) =>
               metrics.cumCritical.map(m => m / 2)
           }
         }

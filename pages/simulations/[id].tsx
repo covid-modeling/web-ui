@@ -1,3 +1,4 @@
+import {output, RunStatus} from '@covid-modeling/api'
 import pick from 'lodash/pick'
 import {DateTime} from 'luxon'
 import {GetServerSideProps} from 'next'
@@ -31,7 +32,6 @@ import flagAndName from '../../lib/regionEmoji'
 import {ensureSession} from '../../lib/session'
 import Download from '../../svg/Download.svg'
 import {CaseData} from '../../types/case-data'
-import {ModelOutput, RunStatus} from '../../types/model-runner'
 import {getBlob} from '../api/util/blob-storage'
 import styles from './simulation.module.css'
 
@@ -39,7 +39,7 @@ type Props = {
   hasAcceptedDisclaimer: boolean
   simulation: Simulation | null
   summaries: SimulationSummary[]
-  result: ModelOutput | null
+  result: output.ModelOutput | null
   caseData: CaseData | null
   modelRun: ModelRun | null
   modelSlug: string
@@ -246,7 +246,7 @@ export const getServerSideProps: GetServerSideProps<Props> = handleError(
         return {props}
       }
 
-      let result: ModelOutput | null = null
+      let result: output.ModelOutput | null = null
       let caseData: CaseData | null = null
       if (modelRun.status === RunStatus.Complete) {
         const resultsData = simulation.model_runs.find(
@@ -255,7 +255,7 @@ export const getServerSideProps: GetServerSideProps<Props> = handleError(
         const rawResult = resultsData ? await getBlob(resultsData) : null
 
         if (rawResult) {
-          result = JSON.parse(rawResult) as ModelOutput
+          result = JSON.parse(rawResult) as output.ModelOutput
 
           caseData = await getFatalityData(
             conn,
