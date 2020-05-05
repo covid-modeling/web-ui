@@ -52,6 +52,16 @@ access to some shared credentials and accounts.
    > script/server
    ```
 
+1. Setup the database:
+
+   ```shell
+   > script/db-create
+   ```
+
+   ```shell
+   > script/db-migrate up
+   ```
+
 1. Fetch case data:
 
    This script requires some environment variables (see
@@ -168,7 +178,7 @@ We welcome contributions to this project from the community. See
 
 This project is licensed under the MIT license. See [LICENSE](LICENSE).
 
-[docker]: https://app.datadoghq.com/logs?saved_view=86476
+[docker]: https://www.docker.com/get-started
 [dpx]: https://npm.im/dpx
 [foreman]: https://npm.im/foreman
 [maintainer-docs]: https://github.com/covid-modeling/project-docs-internal/blob/master/docs/web-operations.md
