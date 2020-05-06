@@ -26,7 +26,7 @@ access to some shared credentials and accounts.
 
    ```shell
    > git clone https://github.com/covid-modeling/web-ui
-   > cd web
+   > cd web-ui
    ```
 
 1. Install dependencies:
