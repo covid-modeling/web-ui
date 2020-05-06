@@ -1,0 +1,11 @@
+.StatsPage {
+  @apply mx-auto;
+  @apply px-10;
+  margin-top: 49px;
+  max-width: 615px;
+}
+
+.StatsPage h1 {
+  @apply mt-8 mb-4;
+  @apply font-bold text-3.25xl;
+}

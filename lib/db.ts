@@ -481,6 +481,62 @@ export async function updateUserConfig(
   return newConfig
 }
 
+export async function getUsageByUserStats(
+  conn: ServerlessMysql,
+  githubUser: Session['user']
+): Promise<any> {
+  const isAdmin = await isAdminUser(conn, githubUser.login)
+  if (!isAdmin) {
+    throw new Error('Not available')
+  }
+
+  // include admins when not in prod since there isn't much non-admin
+  // usage outside of prod
+  const includeAdmins = process.env.APP_ENVIRONMENT !== 'production'
+
+  const userCount: RowDataPacket[] = await conn.query(SQL`
+    select s.github_user_login as id, count(*) as count
+    from simulation_runs s, authorized_users a
+    where s.github_user_login = a.github_user_login AND a.admin <= ${
+      includeAdmins ? 1 : 0
+    }
+    group by s.github_user_login
+    order by s.github_user_login
+  `)
+
+  return toObjectArray(userCount)
+}
+
+export async function getUsageByUserPerDayStats(
+  conn: ServerlessMysql,
+  githubUser: Session['user']
+): Promise<any> {
+  const isAdmin = await isAdminUser(conn, githubUser.login)
+  if (!isAdmin) {
+    throw new Error('Not available')
+  }
+
+  // include admins when not in prod since there isn't much non-admin
+  // usage outside of prod
+  const includeAdmins = process.env.APP_ENVIRONMENT !== 'production'
+
+  const simulationsByUserCount: RowDataPacket[] = await conn.query(SQL`
+    select s.region_id, s.subregion_id, date_format(s.created_at, '%Y-%m-%d') as day, count(*) as count
+    from simulation_runs s, authorized_users a
+    where s.github_user_login = a.github_user_login  AND a.admin <= ${
+      includeAdmins ? 1 : 0
+    }
+    group by s.region_id, s.subregion_id, day
+    order by s.region_id, s.subregion_id, day;
+  `)
+
+  return toObjectArray(simulationsByUserCount)
+}
+
+function toObjectArray<T>(arr: T[]): T[] {
+  return arr.map(row => Object.assign({}, row))
+}
+
 function toSimulation(object: any): Simulation {
   const simulation = Object.assign({}, object)
   simulation.status = getRunStatus(object)
