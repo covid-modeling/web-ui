@@ -46,20 +46,23 @@ access to some shared credentials and accounts.
    This script will ask you a series of questions—you'll want to answer that
    yes, you do want to run in local mode.
 
-1. Start the server:
-
-   ```shell
-   > script/server
-   ```
-
 1. Setup the database:
 
    ```shell
    > script/db-create
    ```
 
+   Optionally, run all the database migrations (these will be automatically run
+   every time you start the server).
+
    ```shell
    > script/db-migrate up
+   ```
+
+1. Start the server:
+
+   ```shell
+   > script/server
    ```
 
 1. Fetch case data:
