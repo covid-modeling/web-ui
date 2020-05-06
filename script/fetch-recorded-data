@@ -116,7 +116,7 @@ async function main() {
     .map(o => [
       o.geoId,
       null,
-      DateTime.fromFormat(o.dateRep, 'dd/MM/yyyy').toISO(),
+      DateTime.fromFormat(o.dateRep, 'dd/MM/yyyy').toISODate(),
       o.cumCases,
       0,
       o.cumDeaths
