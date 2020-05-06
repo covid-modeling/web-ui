@@ -177,11 +177,12 @@ async function main() {
     )
   }
 
+  let isError = false
   try {
+    console.log('Inserting case data')
     await db.query('START TRANSACTION')
 
     // Populate the case_data table
-    console.log(`Saving ${caseRecords.length} records to case_data table...`)
     await db.query('CREATE TABLE case_data_import LIKE case_data')
     await db.query(
       `
@@ -192,10 +193,28 @@ async function main() {
       `,
       [caseRecords]
     )
+    console.log(`Saved ${caseRecords.length} records to case_data table...`)
     await db.query(
       'RENAME TABLE case_data TO case_data_old, case_data_import TO case_data'
     )
+  } catch (e) {
+    console.error('Failed to insert case data')
+    console.error(e)
+    isError = true
+  } finally {
+    await db.query('DROP TABLE IF EXISTS case_data_old')
+    await db.query('DROP TABLE IF EXISTS case_data_import')
+  }
 
+  try {
+    console.log('Inserting interventions data')
+    if (!usInterventionRecords.length) {
+      throw new Error('No interventions found')
+    }
+    await db.query('COMMIT')
+
+    // INTERVENTIONS DATA
+    await db.query('START TRANSACTION')
     // Populate the intervention_data table
     await db.query(
       'CREATE TABLE intervention_data_import LIKE intervention_data'
@@ -212,16 +231,26 @@ async function main() {
       `,
       [usInterventionRecords]
     )
+    console.log(
+      `Saved ${usInterventionRecords.length} records to interventions table...`
+    )
     await db.query(
       'RENAME TABLE intervention_data TO intervention_data_old, intervention_data_import TO intervention_data'
     )
 
     await db.query('COMMIT')
+  } catch (e) {
+    console.error('Failed to insert interventions data')
+    console.error(e)
+    isError = true
   } finally {
-    await db.query('DROP TABLE IF EXISTS case_data_old')
-    await db.query('DROP TABLE IF EXISTS case_data_import')
     await db.query('DROP TABLE IF EXISTS intervention_data_old')
     await db.query('DROP TABLE IF EXISTS intervention_data_import')
+  }
+
+  if (isError) {
+    console.error('Failed to complete all tasks')
+    process.exit(-1)
   }
 }
 
