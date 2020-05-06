@@ -25,7 +25,7 @@ access to some shared credentials and accounts.
 1. Clone this repository:
 
    ```shell
-   > git clone https://github.com/covid-modeling/web
+   > git clone https://github.com/covid-modeling/web-ui
    > cd web
    ```
 
