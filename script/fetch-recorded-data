@@ -180,6 +180,11 @@ async function main() {
   let isError = false
   try {
     console.log('Inserting case data')
+
+    if (!caseRecords.length) {
+      throw new Error('No case data found')
+    }
+
     await db.query('START TRANSACTION')
 
     // Populate the case_data table
@@ -197,6 +202,8 @@ async function main() {
     await db.query(
       'RENAME TABLE case_data TO case_data_old, case_data_import TO case_data'
     )
+
+    await db.query('COMMIT')
   } catch (e) {
     console.error('Failed to insert case data')
     console.error(e)
@@ -208,10 +215,10 @@ async function main() {
 
   try {
     console.log('Inserting interventions data')
+
     if (!usInterventionRecords.length) {
       throw new Error('No interventions found')
     }
-    await db.query('COMMIT')
 
     // INTERVENTIONS DATA
     await db.query('START TRANSACTION')
@@ -250,7 +257,7 @@ async function main() {
 
   if (isError) {
     console.error('Failed to complete all tasks')
-    process.exit(-1)
+    process.exit(1)
   }
 }
 
