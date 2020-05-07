@@ -15,7 +15,7 @@ jobs:
       - run: |
           mkdir .now
           echo '{"projectId":"${{secrets.ZEIT_PROJECT_ID}}","orgId":"${{secrets.ZEIT_ORG_ID}}"}' > .now/project.json
-      - run: npx now --token ${{secrets.ZEIT_TOKEN}} -b GITHUB_SHA=${{github.sha}} --prod -A now.prod.json
+      - run: npx now --token ${{secrets.ZEIT_TOKEN}} -b GITHUB_SHA=${{github.sha}} -A now.prod.json
       - run: |
           npx sentry-cli \
             --auth-token "${{secrets.SENTRY_AUTH_TOKEN}}" \
