@@ -32,7 +32,7 @@ INFO
 
 const ecdcCasesURL = `https://opendata.ecdc.europa.eu/covid19/casedistribution/json/`
 const covidTrackingURL = 'https://covidtracking.com/api/v1/states/daily.json'
-const usInterventionsURL = `https://raw.githubusercontent.com/COVID19StatePolicy/SocialDistancing/master/data/USstatesCov19distancingpolicyBETA.csv`
+const usInterventionsURL = `https://raw.githubusercontent.com/COVID19StatePolicy/SocialDistancing/master/data/USstatesCov19distancingpolicy.csv`
 
 const db = mysql({
   maxRetries: 5,
