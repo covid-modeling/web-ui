@@ -38,7 +38,7 @@ mrc-ide-covid-sim:
 mc19:
   name: Modeling Covid-19
   origin: Modeling Covid-19
-  imageURL: docker.pkg.github.com/covid-modeling/model-runner/modelingcovid-covidmodel-connector:1.0.0
+  imageURL: docker.pkg.github.com/covid-modeling/model-runner/modelingcovid-covidmodel-connector:1.1.0
   isProductionReady: false
   metaURLs:
     code: https://github.com/modelingcovid/covidmodel
