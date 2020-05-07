@@ -3,7 +3,7 @@ import ModelInfo from '../components/ModelInfo'
 import models, {ModelSpec} from '../lib/models'
 import styles from './about.module.css'
 
-export default function IndexPage() {
+export default function AboutPage() {
   return (
     <AppFrame loggedIn={false}>
       <div className={styles.AboutPage}>
