@@ -53,9 +53,11 @@ const db = mysql({
 
 async function main() {
   // Fetch the raw data
-  const usaCasesJSON = await fetchCached(covidTrackingURL, cacheDir)
-  const ecdcCasesJSON = await fetchCached(ecdcCasesURL, cacheDir)
-  const usInterventionsCSV = await fetchCached(usInterventionsURL, cacheDir)
+  const [usaCasesJSON, ecdcCasesJSON, usInterventionsCSV] = await Promise.all([
+    fetchCached(covidTrackingURL, cacheDir),
+    fetchCached(ecdcCasesURL, cacheDir),
+    fetchCached(usInterventionsURL, cacheDir)
+  ])
 
   // Parse the US case data
   const metricsByState = {}
@@ -94,7 +96,7 @@ async function main() {
     // Group by country
     .groupBy('geoId')
     // Sort the per day entries so that we can calculate the cumulative values correctly.
-    .mapValues(v => _.sortBy(v, ['year', 'month', 'day']))
+    .mapValues(v => _.sortBy(v, [v => toISODate(v.dateRep)]))
     .mapValues(v =>
       _.reduce(
         v,
@@ -116,14 +118,7 @@ async function main() {
     .flatten()
     // Remove any US data since we get that from another source.
     .filter(o => o.geoId !== 'US')
-    .map(o => [
-      o.geoId,
-      null,
-      DateTime.fromFormat(o.dateRep, 'dd/MM/yyyy').toISODate(),
-      o.cumCases,
-      0,
-      o.cumDeaths
-    ])
+    .map(o => [o.geoId, null, toISODate(o.dateRep), o.cumCases, 0, o.cumDeaths])
     .forEach(r => {
       // They use UK as the country code, but we expect GB, so switch them.
       if (r[0] === 'UK') {
@@ -299,6 +294,10 @@ async function fetchCached(url, cacheDir) {
     }
     return result
   }
+}
+
+function toISODate(dateRep) {
+  return DateTime.fromFormat(dateRep, 'dd/MM/yyyy').toISODate()
 }
 
 main()
