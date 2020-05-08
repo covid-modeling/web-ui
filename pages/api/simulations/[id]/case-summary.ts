@@ -1,9 +1,9 @@
-import { input, output } from '@covid-modeling/api'
-import { DateTime } from 'luxon'
-import { last } from '../../../../lib/arrayMath'
+import {input, output} from '@covid-modeling/api'
+import {DateTime} from 'luxon'
+import {last} from '../../../../lib/arrayMath'
 import * as db from '../../../../lib/db'
-import { withDB } from '../../../../lib/mysql'
-import { getBlob } from '../../util/blob-storage'
+import {withDB} from '../../../../lib/mysql'
+import {getBlob} from '../../util/blob-storage'
 import dispatch from '../../util/dispatch'
 import requireSession from '../../util/require-session'
 
@@ -19,10 +19,10 @@ export default withDB(conn =>
   requireSession(ssn =>
     dispatch('GET', async (req, res) => {
       const id = parseInt(req.query.id as string)
-      const sim = await db.getSimulation(conn, ssn.user, { id })
+      const sim = await db.getSimulation(conn, ssn.user, {id})
 
       if (!sim) {
-        res.status(404).json({ error: 'Not found' })
+        res.status(404).json({error: 'Not found'})
         return
       }
       const allResults = await fetchSimulationResults(sim)
@@ -69,13 +69,16 @@ async function fetchSimulationResults(
 ): Promise<[string, output.ModelOutput][]> {
   const allRaw = await Promise.all(
     sim.model_runs.map<Promise<[string, string | null]>>(async run => {
-      return [run.model_slug, run.results_data ? await getBlob(run.results_data) : null]
+      return [
+        run.model_slug,
+        run.results_data ? await getBlob(run.results_data) : null
+      ]
     })
   )
 
   return allRaw
-      .filter(([slug, data]) => isResult(data))
-      .map(([slug, data]) => [slug, JSON.parse(data!) as output.ModelOutput])
+    .filter(([, data]) => isResult(data))
+    .map(([slug, data]) => [slug, JSON.parse(data!) as output.ModelOutput])
 }
 
 // Sum of all case types.
