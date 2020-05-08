@@ -3,7 +3,7 @@ import {DateTime} from 'luxon'
 import {useMemo, useState} from 'react'
 import {animated, useSpring} from 'react-spring'
 import USCapacityData from '../data/hospitals/us.json'
-import {cumsum, elementSum} from '../lib/arrayMath'
+import {cumsum, elementSum, extractDiff} from '../lib/arrayMath'
 import {ModelRun, Simulation} from '../lib/db'
 import {CaseData} from '../types/case-data'
 import ModelSelect from './ModelSelect'
@@ -111,12 +111,15 @@ export default function ChartWrapper(props: Props) {
           color: 'blue',
           projected: {
             values: (metrics: output.SeverityMetrics) =>
-              elementSum([
-                metrics.Mild,
-                metrics.ILI,
-                metrics.SARI,
-                metrics.Critical
-              ]),
+              // Calculate the new daily cases from the cumulative cases
+              extractDiff(
+                elementSum([
+                  metrics.cumMild,
+                  metrics.cumILI,
+                  metrics.cumSARI,
+                  metrics.cumCritical
+                ])
+              ),
             cumulative: (metrics: output.SeverityMetrics) =>
               elementSum([
                 metrics.cumMild,
