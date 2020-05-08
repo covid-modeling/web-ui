@@ -28,8 +28,6 @@ export default withDB(conn =>
       const allResults = await fetchSimulationResults(sim)
 
       const summarizedResults = allResults.reduce<Record<string, CaseSummary>>(
-        // my bad, I had this reversed, should be:
-        // This looks right now...
         (sum, [slug, out]) => {
           const metrics = out.aggregate.metrics
 
