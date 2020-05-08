@@ -21,6 +21,10 @@ export function elementSum(arrays: Array<number[] | null>) {
   return filtered.reduce((memo, arr) => arr!.map((el, i) => memo![i] + el, []))
 }
 
+export function extractDiff(array: number[]) {
+  return array.map((num, i) => num - (array[i - 1] || 0))
+}
+
 export function last(array: number[]) {
   return array[array.length - 1]
 }
