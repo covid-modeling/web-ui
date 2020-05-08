@@ -26,11 +26,12 @@ export default function Disclaimer() {
     <div className="p-4 rounded bg-orange-100 border border-orange-200 text-orange-400">
       {error ? <p className="mb-6 text-orange-400 font-bold">{error}</p> : null}
       <p className="mb-6">
-      These results are based on simulations from different modeling groups. 
-      Results are subject to change as real world situations change over time and more data is available.
-      These results are not medical predictors and are provided as-is.
-      The models themselves, their underlying assumptions, and their weaknesses 
-      should be reviewed carefully before making any decisions.
+        These results are based on simulations from different modeling groups.
+        Results are subject to change as real world situations change over time
+        and more data is available. These results are not medical predictors and
+        are provided as-is. The models themselves, their underlying assumptions,
+        and their weaknesses should be reviewed carefully before making any
+        decisions.
       </p>
 
       <button

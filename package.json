@@ -9,6 +9,7 @@
     "start": "next start",
     "lint-staged": "lint-staged",
     "lint": "eslint \"./**/*.{ts,tsx}\" --ignore-pattern node_modules",
+    "fix": "eslint \"./**/*.{ts,tsx}\" --ignore-pattern node_modules --fix",
     "test": "jest",
     "test:debug": "node --inspect node_modules/.bin/jest --runInBand --watch --all"
   },
