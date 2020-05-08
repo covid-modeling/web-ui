@@ -1,9 +1,9 @@
-import {input, output} from '@covid-modeling/api'
-import {DateTime} from 'luxon'
-import {last} from '../../../../lib/arrayMath'
+import { input, output } from '@covid-modeling/api'
+import { DateTime } from 'luxon'
+import { last } from '../../../../lib/arrayMath'
 import * as db from '../../../../lib/db'
-import {withDB} from '../../../../lib/mysql'
-import {getBlob} from '../../util/blob-storage'
+import { withDB } from '../../../../lib/mysql'
+import { getBlob } from '../../util/blob-storage'
 import dispatch from '../../util/dispatch'
 import requireSession from '../../util/require-session'
 
@@ -19,16 +19,18 @@ export default withDB(conn =>
   requireSession(ssn =>
     dispatch('GET', async (req, res) => {
       const id = parseInt(req.query.id as string)
-      const sim = await db.getSimulation(conn, ssn.user, {id})
+      const sim = await db.getSimulation(conn, ssn.user, { id })
 
       if (!sim) {
-        res.status(404).json({error: 'Not found'})
+        res.status(404).json({ error: 'Not found' })
         return
       }
       const allResults = await fetchSimulationResults(sim)
 
       const summarizedResults = allResults.reduce<Record<string, CaseSummary>>(
-        (sum, out) => {
+        // my bad, I had this reversed, should be:
+        // This looks right now...
+        (sum, [slug, out]) => {
           const metrics = out.aggregate.metrics
 
           // maxIndex finds the last peak value, we want the earliest occurrence (rounded)
@@ -44,7 +46,7 @@ export default withDB(conn =>
             days: peakDailyDeathTs
           })
 
-          sum[out.metadata.model.slug] = {
+          sum[slug] = {
             cConf: Math.round(getCumulativeConfirmed(metrics)),
             cHosp: Math.round(getCumulativeHospitalized(metrics)),
             cDeaths: Math.round(getCumulativeDeaths(metrics)),
@@ -64,16 +66,16 @@ export default withDB(conn =>
 
 async function fetchSimulationResults(
   sim: db.Simulation
-): Promise<output.ModelOutput[]> {
-  // Get all the raw results.
+): Promise<[string, output.ModelOutput][]> {
   const allRaw = await Promise.all(
-    sim.model_runs.map(run =>
-      run.results_data ? getBlob(run.results_data) : null
-    )
+    sim.model_runs.map<Promise<[string, string | null]>>(async run => {
+      return [run.model_slug, run.results_data ? await getBlob(run.results_data) : null]
+    })
   )
 
-  // Parse all the raw results we found.
-  return allRaw.filter(isResult).map(r => JSON.parse(r) as output.ModelOutput)
+  return allRaw
+      .filter(([slug, data]) => isResult(data))
+      .map(([slug, data]) => [slug, JSON.parse(data!) as output.ModelOutput])
 }
 
 // Sum of all case types.
