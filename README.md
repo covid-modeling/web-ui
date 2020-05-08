@@ -21,7 +21,6 @@ access to some shared credentials and accounts.
 ### Shared Setup (for both local and advanced modes)
 
 1. Install and start [Docker][docker].
-1. Get the [OAuth development app][oauth] client ID and secret. You'll be prompted for them shortly.
 1. Clone this repository:
 
    ```shell
@@ -36,6 +35,16 @@ access to some shared credentials and accounts.
    ```
 
 ### Local Mode Setup
+
+1. Create an OAuth app for local development
+
+   - Go to https://github.com/settings/applications/new to create a new OAuth app
+   - In the _Authorization callback URL_ section, fill in `http://localhost:3000/api/callback`
+   - Fill in anything you want for _Application name_ and _Homepage URL_ (this is
+     for personal use only)
+   - Click _Register application_
+   - Make a note of the _Client ID_ and _Client Secret_, you will need them for the
+     next step.
 
 1. Run the environment setup script:
 
@@ -94,6 +103,8 @@ private [maintainers-only documentation][maintainer-docs].
    ```shell
    > ngrok http 3000
    ```
+
+1. Get the [OAuth development app][oauth] client ID and secret. You'll be prompted for them in the next step.
 
 1. Run the environment setup script:
 
