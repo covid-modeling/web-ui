@@ -53,3 +53,20 @@ mc19:
     fit expectations to get a sense of our uncertainty in the projections.
   supportedParameters:
     - contactReduction
+
+idm-covasim:
+  name: Covasim
+  origin: Institute for Disease Modeling
+  imageURL: docker.pkg.github.com/covid-modeling/covasim-connector/covasim-connector:0.1.0
+  isProductionReady: false
+  metaURLs:
+    code: https://github.com/InstituteforDiseaseModeling/covasim
+    paper:  http://paper.covasim.org/
+    website: http://covasim.org/
+  description: |
+    Covasim is a stochastic agent-based simulator designed to be used for COVID-19 (novel coronavirus, SARS-CoV-2) epidemic analyses.
+    These include projections of indicators such as numbers of infections and peak hospital demand.
+    Covasim can also be used to explore the potential impact of different interventions, including social distancing, school closures, testing, contact tracing, and quarantine.
+  supportedParameters:
+    - interventionStrategies
+    - contactReduction
