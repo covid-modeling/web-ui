@@ -56,7 +56,7 @@ mc19:
 
 idm-covasim:
   name: Covasim
-  origin: Covasim
+  origin: Institute for Disease Modeling
   imageURL: docker.pkg.github.com/covid-modeling/covasim-connector/covasim-connector:master
   isProductionReady: false
   metaURLs:
@@ -64,12 +64,9 @@ idm-covasim:
     paper:  http://paper.covasim.org/
     website: http://covasim.org/
   description: |
-    We’ve implemented a model for the spread of the virus which is an enrichment
-    of the basic SEIR model with adjustments for distancing and adding PCR confirmation
-    and Fatality states. This allows us to fit the solutions of the system of SEIR equations
-    to actual data as reported by various states. We then use a combination of parameters
-    from the fits and literature values to generate Monte Carlo simulations around the
-    fit expectations to get a sense of our uncertainty in the projections.
+    Covasim is a stochastic agent-based simulator designed to be used for COVID-19 (novel coronavirus, SARS-CoV-2) epidemic analyses.
+    These include projections of indicators such as numbers of infections and peak hospital demand.
+    Covasim can also be used to explore the potential impact of different interventions, including social distancing, school closures, testing, contact tracing, and quarantine.
   supportedParameters:
     - interventionStrategies
     - contactReduction
