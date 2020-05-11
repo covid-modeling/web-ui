@@ -53,3 +53,23 @@ mc19:
     fit expectations to get a sense of our uncertainty in the projections.
   supportedParameters:
     - contactReduction
+
+idm-covasim:
+  name: Covasim
+  origin: Covasim
+  imageURL: docker.pkg.github.com/covid-modeling/covasim-connector/covasim-connector:gorzell-test
+  isProductionReady: false
+  metaURLs:
+    code: https://github.com/InstituteforDiseaseModeling/covasim
+    paper:  http://paper.covasim.org/
+    website: http://covasim.org/
+  description: |
+    We’ve implemented a model for the spread of the virus which is an enrichment
+    of the basic SEIR model with adjustments for distancing and adding PCR confirmation
+    and Fatality states. This allows us to fit the solutions of the system of SEIR equations
+    to actual data as reported by various states. We then use a combination of parameters
+    from the fits and literature values to generate Monte Carlo simulations around the
+    fit expectations to get a sense of our uncertainty in the projections.
+  supportedParameters:
+    - interventionStrategies
+    - contactReduction
