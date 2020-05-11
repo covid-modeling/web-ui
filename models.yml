@@ -57,7 +57,7 @@ mc19:
 idm-covasim:
   name: Covasim
   origin: Covasim
-  imageURL: docker.pkg.github.com/covid-modeling/covasim-connector/covasim-connector:gorzell-test
+  imageURL: docker.pkg.github.com/covid-modeling/covasim-connector/covasim-connector:master
   isProductionReady: false
   metaURLs:
     code: https://github.com/InstituteforDiseaseModeling/covasim
