@@ -19,8 +19,7 @@ mrc-ide-covid-sim:
   name: CovidSim (Imperial)
   origin: Imperial College
   isProductionReady: true
-  # FIXME: Do not merge.
-  imageURL: docker.pkg.github.com/covid-modeling/model-runner/mrc-ide-covidsim-connector:gorzell-mrc-nigeria
+  imageURL: docker.pkg.github.com/covid-modeling/model-runner/mrc-ide-covidsim-connector:1.3.0
   metaURLs:
     code: https://github.com/mrc-ide/covid-sim
     paper: https://www.imperial.ac.uk/media/imperial-college/medicine/sph/ide/gida-fellowships/Imperial-College-COVID19-NPI-modelling-16-03-2020.pdf
