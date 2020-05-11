@@ -289,6 +289,16 @@
       }
     }
   },
+  "NG": {
+    "name": "Nigeria",
+    "id": "NG",
+    "regions": {
+      "_self": {
+        "name": "All Regions",
+        "id": "_self"
+      }
+    }
+  },
   "NO": {
     "name": "Norway",
     "id": "NO",
