@@ -42,6 +42,8 @@ const ecdcCasesURL = `https://opendata.ecdc.europa.eu/covid19/casedistribution/j
 const covidTrackingURL = 'https://covidtracking.com/api/v1/states/daily.json'
 const usInterventionsURL = `https://raw.githubusercontent.com/COVID19StatePolicy/SocialDistancing/master/data/USstatesCov19distancingpolicy.csv`
 const internationalSchoolClosuresURL = `https://raw.githubusercontent.com/OxCGRT/covid-policy-tracker/master/data/timeseries/c1_schoolclosing.csv`
+const internationalRestrictionsOnGatheringsURL = `https://raw.githubusercontent.com/OxCGRT/covid-policy-tracker/master/data/timeseries/c4_restrictionsongatherings.csv`
+const internationalStayAtHomeRequirementsURL = `https://raw.githubusercontent.com/OxCGRT/covid-policy-tracker/master/data/timeseries/c6_stayathomerequirements.csv`
 
 const db = mysql({
   maxRetries: 5,
@@ -66,20 +68,17 @@ async function main() {
     usaCasesJSON,
     ecdcCasesJSON,
     usInterventionsCSV,
-    internationalSchoolClosuresCSV
+    internationalSchoolClosuresCSV,
+    internationalRestrictionsOnGatheringsCSV,
+    internationalStayAtHomeRequirementsCSV
   ] = await Promise.all([
     fetchCached(covidTrackingURL, cacheDir),
     fetchCached(ecdcCasesURL, cacheDir),
     fetchCached(usInterventionsURL, cacheDir),
-    fetchCached(internationalSchoolClosuresURL, cacheDir)
+    fetchCached(internationalSchoolClosuresURL, cacheDir),
+    fetchCached(internationalRestrictionsOnGatheringsURL, cacheDir),
+    fetchCached(internationalStayAtHomeRequirementsURL, cacheDir)
   ])
-
-  const internationalSchoolClosures = internationalParser.parseCsv(
-    internationalSchoolClosuresCSV,
-    'SchoolClose',
-    2
-  )
-  console.log(internationalSchoolClosures)
 
   // Parse the US case data
   const metricsByState = {}
@@ -165,7 +164,7 @@ async function main() {
       const easeDate = row.DateEased || null
       const expirationDate = row.DateExpiry || null
       const endDate = row.DateEnded || null
-      usInterventionRecords.push([
+      usInterventionRecords.push({
         regionId,
         subregionId,
         policy,
@@ -176,9 +175,44 @@ async function main() {
         easeDate,
         expirationDate,
         endDate
-      ])
+      })
     }
   }
+
+  // parse the international interventions data
+  const internationalSchoolClosures = internationalParser.parseCsv(
+    internationalSchoolClosuresCSV,
+    'SchoolClose',
+    2
+  )
+  const internationalRestrictionsOnGatherings = internationalParser.parseCsv(
+    internationalRestrictionsOnGatheringsCSV,
+    'GathRestrict10',
+    3
+  )
+  const internationalStayAtHomeRequirements = internationalParser.parseCsv(
+    internationalStayAtHomeRequirementsCSV,
+    'StayAtHome',
+    2
+  )
+
+  const allInterventionRecords = usInterventionRecords
+    .concat(internationalSchoolClosures)
+    .concat(internationalRestrictionsOnGatherings)
+    .concat(internationalStayAtHomeRequirements)
+    .filter(row => !!row.startDate)
+    .map(row => [
+      row.regionId,
+      row.subregionId,
+      row.policy,
+      row.notes,
+      row.source,
+      row.issueDate,
+      row.startDate,
+      row.easeDate,
+      row.expirationDate,
+      row.endDate
+    ])
 
   if (cacheDir) {
     fs.writeFileSync(
@@ -189,7 +223,7 @@ async function main() {
 
     fs.writeFileSync(
       path.join(cacheDir, 'intervention-data.json'),
-      JSON.stringify(usInterventionRecords, null, 2),
+      JSON.stringify(allInterventionRecords, null, 2),
       'utf8'
     )
   }
@@ -233,7 +267,7 @@ async function main() {
   try {
     console.log('Inserting interventions data')
 
-    if (!usInterventionRecords.length) {
+    if (!allInterventionRecords.length) {
       throw new Error('No interventions found')
     }
 
@@ -253,10 +287,10 @@ async function main() {
         VALUES
         ?
       `,
-      [usInterventionRecords]
+      [allInterventionRecords]
     )
     console.log(
-      `Saved ${usInterventionRecords.length} records to interventions table...`
+      `Saved ${allInterventionRecords.length} records to interventions table...`
     )
     await db.query(
       'RENAME TABLE intervention_data TO intervention_data_old, intervention_data_import TO intervention_data'
