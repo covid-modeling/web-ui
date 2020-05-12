@@ -65,5 +65,5 @@ export interface Interventions {
  * This is all of our interventions data
  */
 export interface InterventionMap {
-  US: Record<string, Interventions>
+  [key: string]: Record<string, Interventions>
 }

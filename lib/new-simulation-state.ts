@@ -247,10 +247,7 @@ function autoFillParameters(
   subregion: Region | undefined,
   interventions: InterventionMap
 ): InterventionPeriod[] {
-  if (!subregion || region.id !== 'US') {
-    return []
-  }
-  const regionInterventions = interventions[region.id][subregion.id]
+  const regionInterventions = interventions[region.id][subregion?.id || '_self']
   if (!regionInterventions) {
     return []
   }
