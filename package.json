@@ -81,6 +81,7 @@
     "eslint-plugin-react": "~7.19.0",
     "eslint-plugin-react-hooks": "^3.0.0",
     "husky": "^4.2.3",
+    "i18n-iso-countries": "^5.3.0",
     "jest": "^25.3.0",
     "js-yaml": "^3.13.1",
     "js-yaml-loader": "^1.2.2",
@@ -93,6 +94,7 @@
     "source-map": "^0.7.3",
     "tailwindcss": "^1.2.0",
     "ts-json-schema-generator": "^0.67.1",
+    "ts-node": "^8.10.1",
     "typescript": "^3.8.3"
   },
   "eslintConfig": {
