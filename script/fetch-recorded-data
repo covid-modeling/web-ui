@@ -9,6 +9,14 @@ const mysql = require('serverless-mysql')
 const d3 = require('d3')
 const _ = require('lodash')
 
+require('ts-node').register({
+  project: path.join(__dirname, '../tsconfig.json'),
+  compilerOptions: {
+    module: 'commonjs'
+  }
+})
+const internationalParser = require('../lib/international-interventions-parser')
+
 const cacheDir = process.argv[2]
 if (cacheDir === '--help') {
   console.log(`
@@ -33,6 +41,7 @@ INFO
 const ecdcCasesURL = `https://opendata.ecdc.europa.eu/covid19/casedistribution/json/`
 const covidTrackingURL = 'https://covidtracking.com/api/v1/states/daily.json'
 const usInterventionsURL = `https://raw.githubusercontent.com/COVID19StatePolicy/SocialDistancing/master/data/USstatesCov19distancingpolicy.csv`
+const internationalSchoolClosuresURL = `https://raw.githubusercontent.com/OxCGRT/covid-policy-tracker/master/data/timeseries/c1_schoolclosing.csv`
 
 const db = mysql({
   maxRetries: 5,
@@ -53,11 +62,24 @@ const db = mysql({
 
 async function main() {
   // Fetch the raw data
-  const [usaCasesJSON, ecdcCasesJSON, usInterventionsCSV] = await Promise.all([
+  const [
+    usaCasesJSON,
+    ecdcCasesJSON,
+    usInterventionsCSV,
+    internationalSchoolClosuresCSV
+  ] = await Promise.all([
     fetchCached(covidTrackingURL, cacheDir),
     fetchCached(ecdcCasesURL, cacheDir),
-    fetchCached(usInterventionsURL, cacheDir)
+    fetchCached(usInterventionsURL, cacheDir),
+    fetchCached(internationalSchoolClosuresURL, cacheDir)
   ])
+
+  const internationalSchoolClosures = internationalParser.parseCsv(
+    internationalSchoolClosuresCSV,
+    'SchoolClose',
+    2
+  )
+  console.log(internationalSchoolClosures)
 
   // Parse the US case data
   const metricsByState = {}

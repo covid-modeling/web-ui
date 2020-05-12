@@ -5,3 +5,4 @@
 .env
 .env.build
 now.local.json
+.cache
