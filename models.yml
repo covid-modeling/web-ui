@@ -38,12 +38,12 @@ mrc-ide-covid-sim:
 mc19:
   name: Modeling Covid-19
   origin: Modeling Covid-19
-  imageURL: docker.pkg.github.com/covid-modeling/model-runner/modelingcovid-covidmodel-connector:1.4.0
+  imageURL: docker.pkg.github.com/covid-modeling/model-runner/modelingcovid-covidmodel-connector:1.5.0
   isProductionReady: false
   metaURLs:
     code: https://github.com/modelingcovid/covidmodel
     paper: https://dash.harvard.edu/bitstream/handle/1/42638988/Social%20distancing%20strategies%20for%20curbing%20the%20Covid-19%20epidemic.pdf?sequence=1&isAllowed=y
-    website: https://covidmodel-flax.now.sh/about
+    website: https://modelingcovid.com/about
   description: |
     We’ve implemented a model for the spread of the virus which is an enrichment
     of the basic SEIR model with adjustments for distancing and adding PCR confirmation
