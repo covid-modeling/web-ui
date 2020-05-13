@@ -4,6 +4,7 @@ import * as csvjson from 'csvjson'
 import * as iso from 'i18n-iso-countries'
 import {input} from '@covid-modeling/api'
 import {ISODate} from '@covid-modeling/api/dist/src/model-input'
+import {DateTime} from 'luxon'
 
 interface PolicyRow {
   regionId: string
@@ -17,6 +18,8 @@ interface PolicyRow {
   expirationDate: input.ISODate | null
   endDate: input.ISODate | null
 }
+
+const dateFormat = 'ddMMMyyyy'
 
 export function parseCsv(
   csv: string,
@@ -55,40 +58,19 @@ export function parseCsv(
         notes: null,
         source: null,
         issueDate: null,
-        startDate: translateDate(startDate),
+        startDate:
+          startDate === null || startDate === undefined
+            ? null
+            : DateTime.fromFormat(startDate, dateFormat).toISODate(),
         easeDate: null,
         expirationDate: null,
-        endDate: translateDate(endDate)
+        endDate:
+          endDate === null || endDate === undefined
+            ? null
+            : DateTime.fromFormat(endDate, dateFormat).toISODate()
       }
     })
     .filter(row => row.regionId)
-}
-
-const months = {
-  jan: '01',
-  feb: '02',
-  mar: '03',
-  apr: '04',
-  may: '05',
-  jun: '06',
-  jul: '07',
-  aug: '08',
-  sep: '09',
-  oct: '10',
-  nov: '11',
-  dec: '12'
-}
-
-// exported for testing
-export function translateDate(ddmmmyyyy: string): ISODate | null {
-  if (!ddmmmyyyy) {
-    return null
-  }
-  const month = (months as any)[ddmmmyyyy.slice(2, 5)]
-  if (!month) {
-    return null
-  }
-  return [ddmmmyyyy.slice(5), month, ddmmmyyyy.slice(0, 2)].join('-')
 }
 
 function getIsoCode(alpha3: string): string {
