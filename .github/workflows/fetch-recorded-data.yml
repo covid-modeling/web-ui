@@ -18,7 +18,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 13.x
-      - run: npm ci
+      - run: npm ci --production=false
       - run: |
           echo "Updating recorded data in staging database..."
           script/fetch-recorded-data
@@ -27,6 +27,7 @@ jobs:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD_STAGING }}
           DB_HOST: ${{ secrets.DB_HOST_STAGING }}
           DB_DATABASE: ${{ secrets.DB_DATABASE_STAGING }}
+          NODE_ENV: production
       - run: |
           echo "Updating recorded data in production database..."
           script/fetch-recorded-data
@@ -35,3 +36,4 @@ jobs:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DB_HOST: ${{ secrets.DB_HOST }}
           DB_DATABASE: ${{ secrets.DB_DATABASE }}
+          NODE_ENV: production
