@@ -2,7 +2,7 @@ basel:
   name: Covid19-Scenarios (Neher)
   origin: Neher Lab, Biozentrum Basel
   isProductionReady: true
-  imageURL: docker.pkg.github.com/covid-modeling/model-runner/neherlab-covid-19-scenarios-connector:1.1.0
+  imageURL: docker.pkg.github.com/covid-modeling/model-runner/neherlab-covid-19-scenarios-connector:1.1.1
   metaURLs:
     code: https://github.com/neherlab/covid19_scenarios
     website: https://covid19-scenarios.org/about
