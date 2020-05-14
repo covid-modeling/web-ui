@@ -13,7 +13,40 @@ import {InterventionMap, Interventions} from '../lib/simulation-types'
 
 describe('new-simulation-state', () => {
   describe('initializeSimulationState', () => {
-    it('should initialize state with empty interventions', () => {
+    it('should initialize state when there is no intervention data', () => {
+      const state = initializeSimulationState(createMockRegions(), {})
+      expect(state).toEqual({
+        interventionPeriods: [],
+        label: createMockLabel(),
+        ...createMockRegions()
+      })
+    })
+
+    it('should initialize state when there are no interventions for first region', () => {
+      const state = initializeSimulationState(
+        createMockRegions('different-region', 'US-AL'),
+        createMockInterventions()
+      )
+      expect(state).toEqual({
+        interventionPeriods: [],
+        label: createMockLabel(),
+        ...createMockRegions('different-region', 'US-AL')
+      })
+    })
+
+    it('should initialize state when there are no interventions for first subregion', () => {
+      const state = initializeSimulationState(
+        createMockRegions('US', 'different-subregion'),
+        createMockInterventions()
+      )
+      expect(state).toEqual({
+        interventionPeriods: [],
+        label: createMockLabel(),
+        ...createMockRegions('US', 'different-subregion')
+      })
+    })
+
+    it('should initialize state with empty interventions for region', () => {
       const state = initializeSimulationState(
         createMockRegions(),
         createMockInterventions()
