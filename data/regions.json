@@ -427,6 +427,10 @@
         "id": "US-AL",
         "name": "Alabama"
       },
+      "US-AK": {
+        "id": "US-AK",
+        "name": "Alaska"
+      },
       "US-AZ": {
         "id": "US-AZ",
         "name": "Arizona"
@@ -458,6 +462,10 @@
       "US-GA": {
         "id": "US-GA",
         "name": "Georgia"
+      },
+      "US-HI": {
+        "id": "US-HI",
+        "name": "Hawaii"
       },
       "US-ID": {
         "id": "US-ID",
@@ -618,6 +626,22 @@
       "US-DC": {
         "id": "US-DC",
         "name": "District of Columbia"
+      },
+      "US-AS": {
+        "id": "US-AS",
+        "name": "American Samoa"
+      },
+      "US-GU": {
+        "id": "US-GU",
+        "name": "Guam"
+      },
+      "US-PR": {
+        "id": "US-PR",
+        "name": "Puerto Rico"
+      },
+      "US-VI": {
+        "id": "US-VI",
+        "name": "US Virgin Islands"
       }
     }
   }
