@@ -19,7 +19,11 @@ import flagAndName from '../../lib/regionEmoji'
 import {InterventionMap} from '../../lib/simulation-types'
 import {SentryContext} from '../../pages/_app'
 import Plus from '../../svg/Plus.svg'
-import {Region, RegionMap, TopLevelRegion} from '../../types/regions'
+import {
+  Region,
+  TopLevelRegion,
+  TopLevelRegionMap
+} from '../../pages/api/regions'
 import btnStyles from '../styles/button.module.css'
 import formStyle from '../styles/form.module.css'
 import selectStyles from '../styles/select.module.css'
@@ -30,7 +34,7 @@ import styles from './NewSimulationForm.module.css'
 import {SupportedParameters} from './SupportedParameters'
 
 interface Props {
-  regions: RegionMap
+  regions: TopLevelRegionMap
   interventions: InterventionMap
 }
 
