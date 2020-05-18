@@ -12,6 +12,7 @@ import {
   InterventionMap,
   ParameterAbbreviations
 } from './simulation-types'
+import {TopLevelRegionMap} from '../pages/api/regions'
 
 const {captureException} = initSentry()
 
@@ -531,6 +532,48 @@ export async function getUsageByUserPerDayStats(
   `)
 
   return toObjectArray(simulationsByUserCount)
+}
+
+export async function getRegions(conn: ServerlessMysql) {
+  const rawRegions: any[] = await conn.query(SQL`select * from regions;`)
+  const regions: TopLevelRegionMap = {}
+  // iterate once to fill in the top level regions
+  rawRegions.forEach(rawRegion => {
+    if (!rawRegion.parent_id) {
+      regions[rawRegion.id] = {
+        name: rawRegion.name,
+        id: rawRegion.id,
+        regions: {}
+      }
+    }
+  })
+
+  // iterate again to fill in the sub level regions
+  rawRegions.forEach(rawRegion => {
+    if (rawRegion.parent_id) {
+      if (!regions[rawRegion.parent_id]) {
+        throw new Error(`Missing region ${rawRegion.parent_id}`)
+      }
+
+      regions[rawRegion.parent_id].regions[rawRegion.id] = {
+        name: rawRegion.name,
+        id: rawRegion.id,
+        regions: {}
+      }
+    }
+  })
+
+  // ensure all empty regions have a _self region
+  Object.values(regions).forEach(region => {
+    if (!Object.values(region.regions).length) {
+      region.regions['_self'] = {
+        name: 'All Regions',
+        id: '_self',
+        regions: {}
+      }
+    }
+  })
+  return regions
 }
 
 function toObjectArray<T>(arr: T[]): T[] {

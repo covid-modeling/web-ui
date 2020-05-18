@@ -1,3 +1,8 @@
+import {withDB} from '../../lib/mysql'
+import requireSession from './util/require-session'
+import dispatch from './util/dispatch'
+import * as db from '../../lib/db'
+
 /**
  * A mapping of ISO 3166 codes to region specifiers
  *
@@ -8,7 +13,9 @@
  *
  * https://en.wikipedia.org/wiki/ISO_3166
  */
-export type RegionMap = Record<string, TopLevelRegion>
+export type RegionMap = Record<string, Region>
+
+export type TopLevelRegionMap = Record<string, TopLevelRegion>
 
 /**
  * A top-level region, which must have subregions.
@@ -39,3 +46,12 @@ export type Region = {
    */
   regions?: RegionMap
 }
+
+export default withDB(conn =>
+  requireSession(() =>
+    dispatch('GET', async (req, res) => {
+      const regions = await db.getRegions(conn)
+      res.status(200).json(regions)
+    })
+  )
+)

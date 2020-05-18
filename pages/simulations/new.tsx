@@ -5,10 +5,10 @@ import handleError from '../../lib/handle-error'
 import {withDB} from '../../lib/mysql'
 import {ensureSession} from '../../lib/session'
 import {InterventionMap} from '../../lib/simulation-types'
-import {RegionMap} from '../../types/regions'
+import {TopLevelRegionMap} from '../api/regions'
 
 interface Props {
-  regions: RegionMap
+  regions: TopLevelRegionMap
   interventions: InterventionMap
 }
 
@@ -21,13 +21,17 @@ export default function NewSimulationPage(props: Props) {
 }
 
 let interventions: InterventionMap
+let regions: TopLevelRegionMap
 
 export const getServerSideProps = handleError(
   withDB(conn =>
     ensureSession(async () => {
-      const regions = require('../../data/regions.json')
+      // Cache intervention and region data for the life of the server process
 
-      // Cache intervention data for the life of the server process
+      if (!regions) {
+        regions = await db.getRegions(conn)
+      }
+
       if (!interventions) {
         interventions = await db.getInterventionData(conn)
       }
