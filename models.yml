@@ -57,11 +57,11 @@ mc19:
 idm-covasim:
   name: Covasim
   origin: Institute for Disease Modeling
-  imageURL: docker.pkg.github.com/covid-modeling/covasim-connector/covasim-connector:0.1.1
+  imageURL: docker.pkg.github.com/covid-modeling/covasim-connector/covasim-connector:1.1.2
   isProductionReady: false
   metaURLs:
     code: https://github.com/InstituteforDiseaseModeling/covasim
-    paper:  http://paper.covasim.org/
+    paper: http://paper.covasim.org/
     website: http://covasim.org/
   description: |
     Covasim is a stochastic agent-based simulator designed to be used for COVID-19 (novel coronavirus, SARS-CoV-2) epidemic analyses.
