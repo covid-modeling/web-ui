@@ -22,6 +22,10 @@ export type ModelSpec = {
   description: string
   supportedParameters: SupportedParameter[]
   isProductionReady: boolean
+
+  // A missing supportedRegions field means that it is unknown which regions
+  // this model supports
+  supportedRegions?: Record<string, SupportedRegion>
 }
 
 export type MinimalModelSpec = {
@@ -52,3 +56,6 @@ export function supportedParameterDesc(supportedParameter: SupportedParameter) {
       throw new Error('Missing case')
   }
 }
+
+type SupportedRegion = SupportedSubregion[]
+type SupportedSubregion = string
