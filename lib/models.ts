@@ -22,7 +22,14 @@ export type ModelSpec = {
   description: string
   supportedParameters: SupportedParameter[]
   isProductionReady: boolean
+
+  // A missing supportedRegions field means that it is unknown which regions
+  // this model supports.
+  // An entry here indicates that the model supports the region as a whole as well as any of the listed subregions.
+  supportedRegions?: Record<string, SupportedSubregion[]>
 }
+
+type SupportedSubregion = string
 
 export type MinimalModelSpec = {
   metaURLs?: {
