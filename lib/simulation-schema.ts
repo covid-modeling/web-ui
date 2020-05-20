@@ -51,7 +51,7 @@ export const newSimulationSchema = Joi.object({
     .label('Estimated r0')
     .greater(0),
   customCalibrationDate: Joi.string()
-    .label('Custom calibration date')
+    .label('Calibration date')
     .isoDate()
 })
 
