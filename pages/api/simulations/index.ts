@@ -30,6 +30,8 @@ const GITHUB_API_TOKEN = assertEnv('GITHUB_API_TOKEN', true)
 const RUNNER_CALLBACK_URL = assertEnv('RUNNER_CALLBACK_URL', true)
 const CONTROL_REPO_EVENT_TYPE = assertEnv('CONTROL_REPO_EVENT_TYPE', true)
 
+export class UserError extends Error {}
+
 export default withDB(conn =>
   requireSession((session: Session) =>
     dispatch({
@@ -42,8 +44,7 @@ export default withDB(conn =>
 
         const error = validateSchema(config)
         if (error) {
-          res.status(422).json(error)
-          return
+          throw new UserError(error.message)
         }
 
         try {
@@ -54,9 +55,13 @@ export default withDB(conn =>
           )
           res.status(200).json({id: insertId})
         } catch (err) {
-          console.error(err)
-          captureException(err)
-          res.status(500).json({error: 'Error queueing simulation run'})
+          if (err instanceof UserError) {
+            res.status(422).json({error: err.message})
+          } else {
+            console.error(err)
+            captureException(err)
+            res.status(500).json({error: 'Error queueing simulation run'})
+          }
         }
       }
     })
@@ -84,8 +89,8 @@ async function createAndDispatchSimulation(
     config.customCalibrationDate &&
     (endDate === null || deaths === null || confirmed === null)
   ) {
-    throw new Error(
-      `Missing calibration data for ${config.customCalibrationDate}`
+    throw new UserError(
+      `Missing calibration data for ${config.customCalibrationDate}. Choose a different date.`
     )
   }
 
