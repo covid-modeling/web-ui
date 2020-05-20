@@ -32,7 +32,7 @@ import FormSection from './FormSection'
 import InterventionPeriodSection from './InterventionPeriodSection'
 import styles from './NewSimulationForm.module.css'
 import {SupportedParameters} from './SupportedParameters'
-import {ISODate} from '@covid-modeling/api/dist/src/model-input'
+import {input} from '@covid-modeling/api'
 import DateInput from './DateInput'
 
 interface Props {
@@ -74,8 +74,9 @@ export default function NewSimulationForm(props: Props) {
     })
   const setLabel = (label: string) => dispatch({type: 'SET_LABEL', label})
   const setR0 = (r0: number | undefined) => dispatch({type: 'SET_R0', r0})
-  const setCalibrationDate = (customCalibrationDate: ISODate | undefined) =>
-    dispatch({type: 'SET_CUSTOM_CALIBRATION_DATE', customCalibrationDate})
+  const setCalibrationDate = (
+    customCalibrationDate: input.ISODate | undefined
+  ) => dispatch({type: 'SET_CUSTOM_CALIBRATION_DATE', customCalibrationDate})
   const updatePeriod = (
     period: InterventionPeriod,
     newPeriod: Partial<InterventionPeriod>
@@ -275,7 +276,7 @@ export default function NewSimulationForm(props: Props) {
         <button
           type="button"
           onClick={addInterventionPeriod}
-          className={`${btnStyles.button} mt-6 px-16 mr-2 block w-full flex justify-center`}
+          className={`${btnStyles.button} mt-6 mr-2 block w-full flex justify-center`}
         >
           <Plus />{' '}
           <span className={styles.ButtonMessage}>Add policy changes</span>
@@ -283,7 +284,7 @@ export default function NewSimulationForm(props: Props) {
         <button
           type="button"
           onClick={addInterventionPeriodEnd}
-          className={`${btnStyles.button} mt-6 px-16 ml-2 block w-full flex justify-center`}
+          className={`${btnStyles.button} mt-6 ml-2 block w-full flex justify-center`}
         >
           Add interventions end date
         </button>
@@ -352,10 +353,10 @@ export default function NewSimulationForm(props: Props) {
 
             <p className="text-light-gray mb-2">
               Setting a custom calibration date allows you to perform historical
-              simulations. The calibration date provides a rough starting point
-              for the simulation. Leave blank to use the default, which is the
-              most recent date that we have case data for the currently selected
-              region.
+              simulations. The calibration date provides a reference point for
+              the simulation. Leave this field blank to use the default
+              calibration. This value is the most recent date for which we have
+              case data in the currently selected region.
             </p>
           </div>
         )}

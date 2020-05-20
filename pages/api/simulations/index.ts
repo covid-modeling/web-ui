@@ -90,7 +90,7 @@ async function createAndDispatchSimulation(
     (endDate === null || deaths === null || confirmed === null)
   ) {
     throw new UserError(
-      `Missing calibration data for ${config.customCalibrationDate}. Choose a different date.`
+      `Calibration data is not available for ${config.customCalibrationDate}. Please choose a different date.`
     )
   }
 
