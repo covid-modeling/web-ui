@@ -3,7 +3,6 @@
 import * as csvjson from 'csvjson'
 import * as iso from 'i18n-iso-countries'
 import {input} from '@covid-modeling/api'
-import {ISODate} from '@covid-modeling/api/dist/src/model-input'
 import {DateTime} from 'luxon'
 
 interface PolicyRow {

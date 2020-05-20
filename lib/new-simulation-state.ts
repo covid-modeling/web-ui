@@ -343,6 +343,12 @@ function autoFillParameters(
     input.Intensity.Moderate,
     input.Intensity.Mild
   )
+  addIntervention(
+    'AggressiveSocialDistancing',
+    'socialDistancing',
+    input.Intensity.Aggressive,
+    input.Intensity.Moderate
+  )
 
   let interventionPeriods: InterventionPeriod[] = rawInterventions
     // Sort by start date,
