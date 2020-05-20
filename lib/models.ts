@@ -26,8 +26,10 @@ export type ModelSpec = {
   // A missing supportedRegions field means that it is unknown which regions
   // this model supports.
   // An entry here indicates that the model supports the region as a whole as well as any of the listed subregions.
-  supportedRegions?: Record<string, SupportedRegion>
+  supportedRegions?: Record<string, SupportedSubregion[]>
 }
+
+type SupportedSubregion = string
 
 export type MinimalModelSpec = {
   metaURLs?: {
@@ -57,6 +59,3 @@ export function supportedParameterDesc(supportedParameter: SupportedParameter) {
       throw new Error('Missing case')
   }
 }
-
-type SupportedRegion = SupportedSubregion[]
-type SupportedSubregion = string
