@@ -32,6 +32,8 @@ import FormSection from './FormSection'
 import InterventionPeriodSection from './InterventionPeriodSection'
 import styles from './NewSimulationForm.module.css'
 import {SupportedParameters} from './SupportedParameters'
+import {ISODate} from '@covid-modeling/api/dist/src/model-input'
+import DateInput from './DateInput'
 
 interface Props {
   regions: TopLevelRegionMap
@@ -72,6 +74,8 @@ export default function NewSimulationForm(props: Props) {
     })
   const setLabel = (label: string) => dispatch({type: 'SET_LABEL', label})
   const setR0 = (r0: number | undefined) => dispatch({type: 'SET_R0', r0})
+  const setCalibrationDate = (customCalibrationDate: ISODate | undefined) =>
+    dispatch({type: 'SET_CUSTOM_CALIBRATION_DATE', customCalibrationDate})
   const updatePeriod = (
     period: InterventionPeriod,
     newPeriod: Partial<InterventionPeriod>
@@ -329,6 +333,29 @@ export default function NewSimulationForm(props: Props) {
               The estimated number of new infections that will be caused for
               each existing infection. Leave this field blank to let each model
               decide its own R<sub>0</sub>.
+            </p>
+
+            <h3 className="font-semibold mt-2">
+              <label htmlFor="custom-calibration-date">
+                Custom calibration date
+              </label>
+            </h3>
+
+            <div className="w-full my-3 flex">
+              <DateInput
+                value={state.customCalibrationDate || ''}
+                onChange={customCalibrationDate =>
+                  setCalibrationDate(customCalibrationDate || undefined)
+                }
+              />
+            </div>
+
+            <p className="text-light-gray mb-2">
+              Setting a custom calibration date allows you to perform historical
+              simulations. The calibration date provides a rough starting point
+              for the simulation. Leave blank to use the default, which is the
+              most recent date that we have case data for the currently selected
+              region.
             </p>
           </div>
         )}

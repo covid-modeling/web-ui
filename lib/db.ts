@@ -328,25 +328,28 @@ function summarizeStrategies(simulation: Simulation): SimulationSummary {
 export async function getRegionCaseData(
   conn: ServerlessMysql,
   regionID: string,
-  subregionID: string | undefined
+  subregionID: string | undefined,
+  calibrationDate?: input.ISODate
 ): Promise<{
   deaths: number | null
   confirmed: number | null
   endDate: input.ISODate | null
 }> {
   const subregionQuery = subregionID
-    ? SQL`\nAND subregion_id = ${subregionID}`
-    : '\n'
+    ? SQL`AND subregion_id = ${subregionID}\n`
+    : ''
 
-  // We want the death data for the week starting with the most recent data we have
-  // This isn't the most efficient way of doing it and we could do this all in one
-  // query.
+  const calibrationDateQuery = calibrationDate
+    ? SQL`AND d.date = ${calibrationDate}\n`
+    : ''
+
   const endDateQuery = SQL`SELECT
         d.date, d.deaths, d.confirmed
       FROM case_data AS d
       WHERE
-        d.region_id = ${regionID}`
+        d.region_id = ${regionID}\n`
     .append(subregionQuery)
+    .append(calibrationDateQuery)
     .append(SQL` ORDER BY d.date DESC LIMIT 1`)
   const endDateResult = await conn.query<
     {date: string; deaths: number; confirmed: number}[]
