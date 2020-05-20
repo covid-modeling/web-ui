@@ -49,7 +49,10 @@ export const newSimulationSchema = Joi.object({
     .custom(validateMinimumOneInterventionStrategy),
   r0: Joi.number()
     .label('Estimated r0')
-    .greater(0)
+    .greater(0),
+  customCalibrationDate: Joi.string()
+    .label('Custom calibration date')
+    .isoDate()
 })
 
 function validateReductionPerc(

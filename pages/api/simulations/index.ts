@@ -74,8 +74,20 @@ async function createAndDispatchSimulation(
   const {endDate, deaths, confirmed} = await getRegionCaseData(
     conn,
     config.regionID,
-    config.subregionID
+    config.subregionID,
+    config.customCalibrationDate
   )
+
+  // If a custom calibration date is specified, but we have no data for that date,
+  // then throw an error
+  if (
+    config.customCalibrationDate &&
+    (endDate === null || deaths === null || confirmed === null)
+  ) {
+    throw new Error(
+      `Missing calibration data for ${config.customCalibrationDate}`
+    )
+  }
 
   const modelInput: Omit<input.ModelInput, 'model'> = {
     region: config.regionID,
