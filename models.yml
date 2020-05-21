@@ -540,7 +540,7 @@ mrc-ide-covid-sim:
 mc19:
   name: Modeling Covid-19
   origin: Modeling Covid-19
-  imageURL: docker.pkg.github.com/covid-modeling/model-runner/modelingcovid-covidmodel-connector:1.5.0
+  imageURL: docker.pkg.github.com/covid-modeling/model-runner/modelingcovid-covidmodel-connector:1.6.0
   isProductionReady: false
   metaURLs:
     code: https://github.com/modelingcovid/covidmodel
@@ -555,6 +555,34 @@ mc19:
     fit expectations to get a sense of our uncertainty in the projections.
   supportedParameters:
     - contactReduction
+  supportedRegions:
+    US:
+      - US-AZ
+      - US-CA
+      - US-CO
+      - US-CT
+      - US-FL
+      - US-GA
+      - US-IL
+      - US-IN
+      - US-LA
+      - US-MA
+      - US-MD
+      - US-MI
+      - US-MS
+      - US-NJ
+      - US-NV
+      - US-NY
+      - US-OH
+      - US-OK
+      - US-OR
+      - US-PA
+      - US-SC
+      - US-TX
+      - US-VA
+      - US-VT
+      - US-WA
+      - US-WI
 
 idm-covasim:
   name: Covasim
