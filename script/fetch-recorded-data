@@ -8,6 +8,25 @@ const {DateTime} = require('luxon')
 const mysql = require('serverless-mysql')
 const d3 = require('d3')
 const _ = require('lodash')
+const argv = require('yargs')
+  .usage('Usage: $0 --cache-dir [dir]')
+  .help('h')
+  .alias('h', 'help')
+  .alias('c', 'cache-dir')
+  .nargs('c', 1)
+  .describe('c', 'Directory to cache results')
+  .epilog(
+    `
+  Download public datasets for covid-19 cases and policy interventions, format these datasets,
+  and write them to MySQL.
+
+  Optionally, pass a path to a dir where downloads should be cached and the results
+  should be written as JSON files.
+
+  To store the results in MySQL, set these environment variables:
+  DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE`
+  )
+  .version(false).argv
 
 require('ts-node').register({
   project: path.join(__dirname, '../tsconfig.json'),
@@ -17,25 +36,9 @@ require('ts-node').register({
 })
 const internationalParser = require('../lib/international-interventions-parser')
 
-const cacheDir = process.argv[2]
-if (cacheDir === '--help') {
-  console.log(`
-USAGE
-
-  fetch-recorded-data [cache-directory]
-
-INFO
-
-  Download public datasets for covid-19 cases and policy interventions, format these datasets,
-  and write them to MySQL.
-
-  Optionally, pass a path to a directory where downloads should be cached and the results
-  should be written as JSON files.
-
-  To store the results in MySQL, set these environment variables:
-  DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE
-`)
-  process.exit(0)
+const cacheDir = argv.cacheDir
+if (cacheDir) {
+  console.log(`Using cache directory '${cacheDir}'`)
 }
 
 const ecdcCasesURL = `https://opendata.ecdc.europa.eu/covid19/casedistribution/json/`
