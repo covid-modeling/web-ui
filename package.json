@@ -95,7 +95,8 @@
     "tailwindcss": "^1.2.0",
     "ts-json-schema-generator": "^0.67.1",
     "ts-node": "^8.10.1",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "yargs": "^15.3.1"
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",

@@ -8,6 +8,32 @@ const {DateTime} = require('luxon')
 const mysql = require('serverless-mysql')
 const d3 = require('d3')
 const _ = require('lodash')
+const argv = require('yargs')
+  .usage('Usage: $0 --cache-dir [dir] --force')
+
+  .help('h')
+  .alias('h', 'help')
+
+  .nargs('c', 1)
+  .alias('c', 'cache-dir')
+  .describe('c', 'Directory to cache results')
+
+  .boolean('f')
+  .alias('f', 'force')
+  .describe('f', 'Force results even though error check has failed')
+
+  .epilog(
+    `
+  Download public datasets for covid-19 cases and policy interventions, format these datasets,
+  and write them to MySQL.
+
+  Optionally, pass a path to a dir where downloads should be cached and the results
+  should be written as JSON files.
+
+  To store the results in MySQL, set these environment variables:
+  DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE`
+  )
+  .version(false).argv
 
 require('ts-node').register({
   project: path.join(__dirname, '../tsconfig.json'),
@@ -16,26 +42,17 @@ require('ts-node').register({
   }
 })
 const internationalParser = require('../lib/international-interventions-parser')
+const validateFetch = require('../lib/validate-fetch')
 
-const cacheDir = process.argv[2]
-if (cacheDir === '--help') {
-  console.log(`
-USAGE
-
-  fetch-recorded-data [cache-directory]
-
-INFO
-
-  Download public datasets for covid-19 cases and policy interventions, format these datasets,
-  and write them to MySQL.
-
-  Optionally, pass a path to a directory where downloads should be cached and the results
-  should be written as JSON files.
-
-  To store the results in MySQL, set these environment variables:
-  DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE
-`)
-  process.exit(0)
+const cacheDir = argv.cacheDir
+if (cacheDir) {
+  console.log(`Using cache directory '${cacheDir}'`)
+}
+const force = argv.force
+if (force) {
+  console.warn(
+    'Forcing results to be saved to database even if there are validation errors'
+  )
 }
 
 const ecdcCasesURL = `https://opendata.ecdc.europa.eu/covid19/casedistribution/json/`
@@ -249,6 +266,14 @@ async function main() {
       `,
       [caseRecords]
     )
+
+    await validateFetch.validateTableLength(
+      db,
+      'case_data',
+      'case_data_import',
+      force
+    )
+
     console.log(`Saved ${caseRecords.length} records to case_data table...`)
     await db.query(
       'RENAME TABLE case_data TO case_data_old, case_data_import TO case_data'
@@ -289,6 +314,14 @@ async function main() {
       `,
       [allInterventionRecords]
     )
+
+    await validateFetch.validateTableLength(
+      db,
+      'intervention_data',
+      'intervention_data_import',
+      force
+    )
+
     console.log(
       `Saved ${allInterventionRecords.length} records to interventions table...`
     )
