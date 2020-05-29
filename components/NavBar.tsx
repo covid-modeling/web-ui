@@ -14,6 +14,7 @@ export default function NavBar(props: PropsWithChildren<Props>) {
           <a>Covid Simulator</a>
         </Link>
       </h1>
+      <div className={styles.Beta}>Beta</div>
 
       <div className={styles.NavBarContent}>{props.children}</div>
 
