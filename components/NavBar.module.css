@@ -14,3 +14,11 @@
 .NavBarContent {
   @apply flex-1;
 }
+
+.Beta {
+  @apply px-1;
+  @apply mx-2;
+  @apply border-green;
+  @apply rounded-sm;
+  @apply border;
+}

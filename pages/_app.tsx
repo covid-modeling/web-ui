@@ -22,7 +22,8 @@ const scriptPolicy =
       "'self'"
     : // In dev builds, allow JS within the app,
       // or the inline scripts bundled by Next.js/webpack in dev mode.
-      "'self' 'unsafe-inline'"
+      // Note that Next.js 9.x now requires unsafe-eval to be included for dev.
+      "'self' 'unsafe-inline' 'unsafe-eval'"
 
 const contentSecurityPolicy = [
   `default-src 'none'`,
