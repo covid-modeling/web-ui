@@ -17,7 +17,7 @@ jobs:
           echo '{"projectId":"${{secrets.ZEIT_PROJECT_ID}}","orgId":"${{secrets.ZEIT_ORG_ID}}"}' > .now/project.json
       - run: npx now --token ${{secrets.ZEIT_TOKEN}} -b GITHUB_SHA=${{github.sha}} -A now.prod.json
       # force production to point to the proper deployment since vercel does not do this automatically.
-      - run: npx now --token ${{secrets.ZEIT_TOKEN}} alias web-jclem.covid-modeling.vercel.app covid-modeling.org
+      - run: npx now --token ${{secrets.ZEIT_TOKEN}} alias web-aeisenberg.covid-modeling.vercel.app covid-modeling.org
       - run: |
           npx sentry-cli \
             --auth-token "${{secrets.SENTRY_AUTH_TOKEN}}" \
