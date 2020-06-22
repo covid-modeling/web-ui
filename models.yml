@@ -541,7 +541,7 @@ mc19:
   name: Modeling Covid-19
   origin: Modeling Covid-19
   imageURL: docker.pkg.github.com/covid-modeling/model-runner/modelingcovid-covidmodel-connector:1.7.0
-  isProductionReady: false
+  isProductionReady: true
   metaURLs:
     code: https://github.com/modelingcovid/covidmodel
     paper: https://dash.harvard.edu/bitstream/handle/1/42638988/Social%20distancing%20strategies%20for%20curbing%20the%20Covid-19%20epidemic.pdf?sequence=1&isAllowed=y
@@ -557,32 +557,48 @@ mc19:
     - contactReduction
   supportedRegions:
     US:
+      - US-AL
+      - US-AR
       - US-AZ
       - US-CA
       - US-CO
       - US-CT
+      - US-DE
       - US-FL
       - US-GA
+      - US-IA
+      - US-ID
       - US-IL
       - US-IN
+      - US-KY
       - US-LA
       - US-MA
       - US-MD
       - US-MI
+      - US-MN
+      - US-MO
       - US-MS
+      - US-NC
+      - US-ND
+      - US-NH
       - US-NJ
+      - US-NM
       - US-NV
       - US-NY
       - US-OH
       - US-OK
       - US-OR
       - US-PA
+      - US-RI
       - US-SC
+      - US-TN
       - US-TX
+      - US-UT
       - US-VA
       - US-VT
       - US-WA
       - US-WI
+      - US-WV
 
 idm-covasim:
   name: Covasim
