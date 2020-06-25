@@ -1,0 +1,602 @@
+basel:
+  name: Covid19-Scenarios (Neher)
+  origin: Neher Lab, Biozentrum Basel
+  isProductionReady: true
+  imageURL: docker.pkg.github.com/covid-modeling/model-runner/neherlab-covid-19-scenarios-connector:master
+  metaURLs:
+    code: https://github.com/neherlab/covid19_scenarios
+    website: https://covid19-scenarios.org/about
+  description: |
+    We implement an age-stratified SEIR model with additional categories
+    for individuals exposed to the virus that are not yet infectious, severely sick
+    people in need of hospitalization, people in critical condition, and a fatal category.
+    The model is currently under active development and the US state level parameters are under review.
+  supportedParameters:
+    - contactReduction
+    - r0
+  supportedRegions:
+    AD: []
+    AE: []
+    AF: []
+    AG: []
+    AL: []
+    AM: []
+    AR: []
+    AT: []
+    AU: []
+    AZ: []
+    BA: []
+    BB: []
+    BD: []
+    BE: []
+    BF: []
+    BG: []
+    BH: []
+    BI: []
+    BJ: []
+    BN: []
+    BO: []
+    BR: []
+    BS: []
+    BT: []
+    BW: []
+    BY: []
+    BZ: []
+    CA:
+      - CA-AB
+      - CA-BC
+      - CA-MB
+      - CA-NB
+      - CA-NL
+      - CA-NS
+      - CA-NT
+      - CA-NU
+      - CA-ON
+      - CA-PE
+      - CA-QC
+      - CA-SK
+      - CA-YT
+    CF: []
+    CH:
+      - CH-AG
+      - CH-AI
+      - CH-AR
+      - CH-BE
+      - CH-BL
+      - CH-BS
+      - CH-FR
+      - CH-GE
+      - CH-GL
+      - CH-GR
+      - CH-JU
+      - CH-LU
+      - CH-NE
+      - CH-NW
+      - CH-OW
+      - CH-SG
+      - CH-SH
+      - CH-SO
+      - CH-SZ
+      - CH-TG
+      - CH-TI
+      - CH-UR
+      - CH-VD
+      - CH-VS
+      - CH-ZG
+      - CH-ZH
+    CL: []
+    CM: []
+    CN: []
+    CO: []
+    CR: []
+    CU: []
+    CV: []
+    CY: []
+    CZ: []
+    DE:
+      - DE-BB
+      - DE-BE
+      - DE-BW
+      - DE-BY
+      - DE-HB
+      - DE-HE
+      - DE-HH
+      - DE-MV
+      - DE-NI
+      - DE-NW
+      - DE-RP
+      - DE-SH
+      - DE-SL
+      - DE-SN
+      - DE-ST
+      - DE-TH
+    DJ: []
+    DK: []
+    DM: []
+    DO: []
+    DZ: []
+    EC: []
+    EE: []
+    EG: []
+    ES:
+      - ES-AN
+      - ES-AR
+      - ES-AS
+      - ES-CB
+      - ES-CE
+      - ES-CL
+      - ES-CM
+      - ES-CN
+      - ES-CT
+      - ES-EX
+      - ES-GA
+      - ES-IB
+      - ES-MC
+      - ES-MD
+      - ES-ML
+      - ES-NC
+      - ES-PV
+      - ES-RI
+      - ES-VC
+    ET: []
+    FI: []
+    FJ: []
+    FM: []
+    FO: []
+    FR:
+      - FR-ARA
+      - FR-BFC
+      - FR-BRE
+      - FR-COR
+      - FR-CVL
+      - FR-GES
+      - FR-GF
+      - FR-GUA
+      - FR-HDF
+      - FR-IDF
+      - FR-LRE
+      - FR-MAY
+      - FR-MQ
+      - FR-NAQ
+      - FR-NOR
+      - FR-OCC
+      - FR-PAC
+      - FR-PDL
+    GA: []
+    GB: []
+    GD: []
+    GE: []
+    GH: []
+    GI: []
+    GL: []
+    GM: []
+    GN: []
+    GQ: []
+    GR: []
+    GT: []
+    GW: []
+    GY: []
+    HK: []
+    HN: []
+    HR: []
+    HT: []
+    HU: []
+    ID: []
+    IE: []
+    IL: []
+    IN:
+      - IN-AN
+      - IN-AP
+      - IN-AR
+      - IN-AS
+      - IN-BR
+      - IN-CH
+      - IN-CT
+      - IN-DD
+      - IN-DL
+      - IN-DN
+      - IN-GA
+      - IN-GJ
+      - IN-HP
+      - IN-HR
+      - IN-JH
+      - IN-JK
+      - IN-KA
+      - IN-KL
+      - IN-LD
+      - IN-MH
+      - IN-ML
+      - IN-MN
+      - IN-MP
+      - IN-MZ
+      - IN-NL
+      - IN-OR
+      - IN-PB
+      - IN-PY
+      - IN-RJ
+      - IN-SK
+      - IN-TH
+      - IN-TN
+      - IN-TR
+      - IN-UP
+      - IN-UT
+      - IN-WB
+    IQ: []
+    IR: []
+    IS: []
+    IT:
+      - IT-21
+      - IT-23
+      - IT-25
+      - IT-32
+      - IT-34
+      - IT-36
+      - IT-42
+      - IT-45
+      - IT-52
+      - IT-55
+      - IT-57
+      - IT-62
+      - IT-65
+      - IT-67
+      - IT-72
+      - IT-75
+      - IT-77
+      - IT-78
+      - IT-82
+      - IT-88
+      - IT-BZ
+      - IT-TN
+    JM: []
+    JO: []
+    JP:
+      - JP-47
+    KE: []
+    KG: []
+    KH: []
+    KI: []
+    KM: []
+    KN: []
+    KP: []
+    KR: []
+    KW: []
+    KZ: []
+    LA: []
+    LB: []
+    LC: []
+    LI: []
+    LK: []
+    LR: []
+    LT: []
+    LU: []
+    LV: []
+    LY: []
+    MA: []
+    MC: []
+    MD: []
+    ME: []
+    MG: []
+    MH: []
+    MK: []
+    ML: []
+    MM: []
+    MN: []
+    MT: []
+    MU: []
+    MV: []
+    MW: []
+    MX: []
+    MY: []
+    MZ: []
+    NA: []
+    NI: []
+    NL: []
+    NO: []
+    NP: []
+    NR: []
+    NZ: []
+    OM: []
+    PA: []
+    PE: []
+    PH:
+      - PH-00
+      - PH-01
+      - PH-02
+      - PH-03
+      - PH-05
+      - PH-06
+      - PH-07
+      - PH-08
+      - PH-09
+      - PH-10
+      - PH-11
+      - PH-12
+      - PH-13
+      - PH-14
+      - PH-15
+      - PH-40
+      - PH-41
+    PK: []
+    PL: []
+    PT: []
+    PW: []
+    PY: []
+    QA: []
+    RO: []
+    RS: []
+    RU: []
+    SA: []
+    SB: []
+    SC: []
+    SD: []
+    SE:
+      - SE-AB
+    SG: []
+    SI: []
+    SK: []
+    SM: []
+    SN: []
+    SO: []
+    SR: []
+    ST: []
+    SV: []
+    SY: []
+    SZ: []
+    TG: []
+    TH: []
+    TJ: []
+    TL: []
+    TM: []
+    TN: []
+    TO: []
+    TR: []
+    TT: []
+    TW: []
+    TZ: []
+    UA: []
+    UG: []
+    US:
+      - US-AK
+      - US-AL
+      - US-AR
+      - US-AZ
+      - US-CA
+      - US-CO
+      - US-CT
+      - US-DC
+      - US-DE
+      - US-FL
+      - US-GA
+      - US-HI
+      - US-IA
+      - US-ID
+      - US-IL
+      - US-IN
+      - US-KS
+      - US-KY
+      - US-LA
+      - US-MA
+      - US-MD
+      - US-ME
+      - US-MI
+      - US-MN
+      - US-MO
+      - US-MS
+      - US-MT
+      - US-NC
+      - US-ND
+      - US-NE
+      - US-NH
+      - US-NJ
+      - US-NM
+      - US-NV
+      - US-NY
+      - US-OH
+      - US-OK
+      - US-OR
+      - US-PA
+      - US-RI
+      - US-SC
+      - US-SD
+      - US-TN
+      - US-TX
+      - US-UT
+      - US-VA
+      - US-VT
+      - US-WA
+      - US-WI
+      - US-WV
+      - US-WY
+    UY: []
+    UZ: []
+    VC: []
+    VE: []
+    VN: []
+    YE: []
+    ZA: []
+    ZM: []
+    ZW: []
+
+mrc-ide-covid-sim:
+  name: CovidSim (Imperial)
+  origin: Imperial College
+  isProductionReady: true
+  imageURL: docker.pkg.github.com/covid-modeling/model-runner/mrc-ide-covidsim-connector:master
+  metaURLs:
+    code: https://github.com/mrc-ide/covid-sim
+    paper: https://www.imperial.ac.uk/media/imperial-college/medicine/sph/ide/gida-fellowships/Imperial-College-COVID19-NPI-modelling-16-03-2020.pdf
+  description: |
+    We consider the feasibility and implications of strategies for COVID-19,
+    looking at a range of NPI measures. It is important to note at the outset
+    that given SARS-CoV-2 is a newly emergent virus, much remains to be
+    understood about its transmission. In addition, the impact of many of the
+    NPIs detailed here depends critically on how people respond to their
+    introduction, which is highly likely to vary between countries and even
+    communities.
+  supportedParameters:
+    - interventionStrategies
+    - r0
+  supportedRegions:
+    AL: []
+    AT: []
+    BA: []
+    BE: []
+    BG: []
+    BY: []
+    CA: []
+    CH: []
+    CR: []
+    DE: []
+    DK: []
+    EE: []
+    ES: []
+    FI: []
+    FR: []
+    GB:
+      - GB-LND
+    GI: []
+    GR: []
+    HR: []
+    HU: []
+    IR: []
+    IS: []
+    IT: []
+    LT: []
+    LU: []
+    LV: []
+    MD: []
+    ME: []
+    MK: []
+    MT: []
+    NG: []
+    NL: []
+    NO: []
+    PL: []
+    PT: []
+    RO: []
+    RS: []
+    RU: []
+    SE: []
+    SI: []
+    SK: []
+    UA: []
+    US:
+      - US-AK
+      - US-AL
+      - US-AR
+      - US-AS
+      - US-AZ
+      - US-CA
+      - US-CO
+      - US-CT
+      - US-DC
+      - US-DE
+      - US-FL
+      - US-GA
+      - US-GU
+      - US-HI
+      - US-IA
+      - US-ID
+      - US-IL
+      - US-IN
+      - US-KS
+      - US-KY
+      - US-LA
+      - US-MA
+      - US-MD
+      - US-ME
+      - US-MI
+      - US-MN
+      - US-MO
+      - US-MS
+      - US-MT
+      - US-NC
+      - US-ND
+      - US-NE
+      - US-NH
+      - US-NJ
+      - US-NM
+      - US-NV
+      - US-NY
+      - US-OH
+      - US-OK
+      - US-OR
+      - US-PA
+      - US-PR
+      - US-RI
+      - US-SC
+      - US-SD
+      - US-TN
+      - US-TX
+      - US-UT
+      - US-VA
+      - US-VI
+      - US-VT
+      - US-WA
+      - US-WI
+      - US-WV
+      - US-WY
+
+mc19:
+  name: Modeling Covid-19
+  origin: Modeling Covid-19
+  imageURL: docker.pkg.github.com/covid-modeling/model-runner/modelingcovid-covidmodel-connector:master
+  isProductionReady: false
+  metaURLs:
+    code: https://github.com/modelingcovid/covidmodel
+    paper: https://dash.harvard.edu/bitstream/handle/1/42638988/Social%20distancing%20strategies%20for%20curbing%20the%20Covid-19%20epidemic.pdf?sequence=1&isAllowed=y
+    website: https://modelingcovid.com/about
+  description: |
+    We’ve implemented a model for the spread of the virus which is an enrichment
+    of the basic SEIR model with adjustments for distancing and adding PCR confirmation
+    and Fatality states. This allows us to fit the solutions of the system of SEIR equations
+    to actual data as reported by various states. We then use a combination of parameters
+    from the fits and literature values to generate Monte Carlo simulations around the
+    fit expectations to get a sense of our uncertainty in the projections.
+  supportedParameters:
+    - contactReduction
+  supportedRegions:
+    US:
+      - US-AZ
+      - US-CA
+      - US-CO
+      - US-CT
+      - US-FL
+      - US-GA
+      - US-IL
+      - US-IN
+      - US-LA
+      - US-MA
+      - US-MD
+      - US-MI
+      - US-MS
+      - US-NJ
+      - US-NV
+      - US-NY
+      - US-OH
+      - US-OK
+      - US-OR
+      - US-PA
+      - US-SC
+      - US-TX
+      - US-VA
+      - US-VT
+      - US-WA
+      - US-WI
+
+idm-covasim:
+  name: Covasim
+  origin: Institute for Disease Modeling
+  imageURL: docker.pkg.github.com/covid-modeling/covasim-connector/covasim-connector:master
+  isProductionReady: false
+  metaURLs:
+    code: https://github.com/InstituteforDiseaseModeling/covasim
+    paper: http://paper.covasim.org/
+    website: http://covasim.org/
+  description: |
+    Covasim is a stochastic agent-based simulator designed to be used for COVID-19 (novel coronavirus, SARS-CoV-2) epidemic analyses.
+    These include projections of indicators such as numbers of infections and peak hospital demand.
+    Covasim can also be used to explore the potential impact of different interventions, including social distancing, school closures, testing, contact tracing, and quarantine.
+  supportedParameters:
+    - interventionStrategies
+    - contactReduction

@@ -1,6 +1,8 @@
 const isProduction = process.env.APP_ENVIRONMENT === 'production'
 
-const models: ModelMap = require('../models.yml')
+const models: ModelMap = isProduction
+  ? require('../models.yml')
+  : require('../models-staging.yml')
 
 Object.keys(models).forEach(modelId => {
   if (isProduction && !models[modelId].isProductionReady) {
