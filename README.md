@@ -8,7 +8,7 @@ not have a set-in-stone development roadmap. This application is built with
 the goal of it hopefully being not too difficult to alter or even rewrite
 parts of it as requirements change.
 
-To learn more about this project's goals, please see [PROJECT-INTENT.md](PROJECT-INTENT.md)
+To learn more about this project's goals, please see [PROJECT-INTENT.md](PROJECT-INTENT.md).
 
 ## Local Development
 
@@ -38,7 +38,7 @@ access to some shared credentials and accounts.
 
 1. Create an OAuth app for local development
 
-   - Go to https://github.com/settings/applications/new to create a new OAuth app
+   - Go to <https://github.com/settings/applications/new> to create a new OAuth app
    - In the _Authorization callback URL_ section, fill in `http://localhost:3000/api/callback`
    - Fill in anything you want for _Application name_ and _Homepage URL_ (this is
      for personal use only)
